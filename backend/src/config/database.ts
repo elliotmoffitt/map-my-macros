@@ -8,24 +8,24 @@ const host = db.host;
 const schema = db.schema
 
 module.exports = {
-    development: {
-    username,
-    password,
-    database,
-    host,
-    dialect: 'postgres',
-    seederStorage: 'sequelize'
-  },
-  // development: {
-    // storage: config.dbFile,
-    // dialect: "sqlite",
-    // seederStorage: "sequelize",
-    // logQueryParameters: true,
-    // typeValidation: true
+  //   development: {
+  //   username,
+  //   password,
+  //   database,
+  //   host,
+  //   dialect: 'postgres',
+  //   seederStorage: 'sequelize'
   // },
+  development: {
+    storage: config.dbFile,
+    dialect: "sqlite",
+    seederStorage: "sequelize",
+    logQueryParameters: true,
+    typeValidation: true
+  },
   production: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
+    dialect: 'sqlite',
     seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {

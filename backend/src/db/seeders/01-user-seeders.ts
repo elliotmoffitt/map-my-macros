@@ -18,7 +18,7 @@ module.exports = {
     lastName: "Squarepants",
     email: "spongebob@aa.io",
     username: "Spongebob",
-    hashedPassword: "$2a$10$RWA3t0FVaTYW1AOKNz5La.3jZDoe0RRqfZ3GFIIrmuNxnjHS0bxu6"
+    hashedPassword: "$2a$10$RWA3t0FVaTYW1AOKNz5La.3jZDoe0RRqfZ3GFIIrmuNxnjHS0bxu6" // password
   },
   {
     firstName: "Patrick",
