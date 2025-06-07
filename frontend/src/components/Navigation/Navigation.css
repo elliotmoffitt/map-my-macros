@@ -5,6 +5,8 @@
 #navigation {
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  padding: .5rem;
 }
 
 #navigation-logo {
