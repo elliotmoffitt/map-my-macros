@@ -14,7 +14,7 @@ const getMenuItems = (menuItems: any) => ({
     payload: menuItems
 })
 
-const getMenuItem = async (menuItems) => {
+const getMenuItem = async (menuItems: any) => {
     const menuItemsNutrition = []
     for (const menuItem of menuItems) {
         const url = new URL(`${SPOONACULAR_URL}${menuItem.id}`);
