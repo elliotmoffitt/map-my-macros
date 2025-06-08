@@ -26,6 +26,38 @@
     margin: .5rem;
 }
 
+.search-input-title-error-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-error-icon {
+    color: red;
+    margin: .25rem 1rem 0 -2rem;
+    transition: display  1s ease-in-out;
+
+}
+
+.search-error-message {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease, visibility .2s ease;
+    position: absolute;
+    color: white;
+    width: 18rem;
+    font-size: .8rem;
+    margin: -3rem 0 0 6rem;
+    background-color: black;
+    border: .15rem solid red;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.search-error-icon-message:hover > .search-error-message {
+    opacity: 1;
+    visibility: visible;
+}
+
 .search-input-title {
     font-size: 1.2rem;
     margin: 0;
@@ -73,6 +105,7 @@
 }
 
 #search-search-button {
+    transition: background-color .2s ease;
     height: 4rem;
     width: 15rem;
     background-color: var(--primary-color);
@@ -84,17 +117,43 @@
     cursor: pointer;
 }
 
+#search-search-button-disabled {
+    transition: background-color .2s ease;
+    height: 4rem;
+    width: 15rem;
+    background-color: grey;
+    border-radius: 10rem;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    font-family: var(--primary-font);
+}
+
 #search-save-search-button {
+    transition: border .2s ease;
     height: 3rem;
     width: 12rem;
     background: none;
     border-radius: 10rem;
-    border: .2rem solid var(--secondary-color);
+    border: .15rem solid var(--secondary-color);
     font-size: 1rem;
     color: white;
     font-family: var(--primary-font);
     margin-top: 1rem;
     cursor: pointer;
+}
+
+#search-save-search-button-disabled {
+    transition: border .2s ease;
+    height: 3rem;
+    width: 12rem;
+    background: none;
+    border-radius: 10rem;
+    border: .15rem solid grey;
+    font-size: 1rem;
+    color: white;
+    font-family: var(--primary-font);
+    margin-top: 1rem;
 }
 
 .search-search-buttons-text {

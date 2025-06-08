@@ -28,7 +28,7 @@ const getMenuItem = async (menuItems: any) => {
             menuItemsNutrition.push(data)
         }
     }
-
+    return menuItemsNutrition;
 }
 
 export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any) => {
@@ -38,7 +38,7 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
         const nutritionParams: INutritionParams = {
             apiKey: SPOONACULAR_API_KEY,
             query: food,
-            number: '2',
+            number: '1',
             minCalories: minCalories,
             maxCalories: maxCalories,
             minProtein: minProtein,
@@ -50,7 +50,9 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
         }
         const url = new URL(`${SPOONACULAR_URL}search`);
         for (const [key, value] of Object.entries(nutritionParams)) {
-            url.searchParams.append(key, value)
+            if (value.length) {
+                url.searchParams.append(key, value)
+            }
         }
         const res = await fetch(url.toString())
         if (res.ok) {
@@ -59,9 +61,8 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
                 throw res;
             }
             dispatch(getMenuItems(data));
-            getMenuItem(data.menuItems);
-            // console.log(data.menuItems)
-            return data;
+            const dataWithNutrition = getMenuItem(data.menuItems);
+            return dataWithNutrition;
         } else {
             throw res;
         }
