@@ -38,7 +38,7 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
         const nutritionParams: INutritionParams = {
             apiKey: SPOONACULAR_API_KEY,
             query: food,
-            number: '1',
+            number: '5',
             minCalories: minCalories,
             maxCalories: maxCalories,
             minProtein: minProtein,
@@ -60,8 +60,8 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
             if (data.errors) {
                 throw res;
             }
-            dispatch(getMenuItems(data));
-            const dataWithNutrition = getMenuItem(data.menuItems);
+            const dataWithNutrition = await getMenuItem(data.menuItems);
+            dispatch(getMenuItems(dataWithNutrition));
             return dataWithNutrition;
         } else {
             throw res;
@@ -71,7 +71,7 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
     }
 }
 
-const initialState = {allMenuItems: []};
+const initialState = {menuItems: []};
 
 const menuItemsReducer = (state = initialState, action: IActionCreator) => {
     let newState = {...state};

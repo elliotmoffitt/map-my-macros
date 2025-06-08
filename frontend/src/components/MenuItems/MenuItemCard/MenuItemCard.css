@@ -1,0 +1,131 @@
+.menu-item-card {
+    display: flex;
+    flex-direction: column;
+    width: 18rem;
+    text-decoration: none;
+}
+
+.menu-item-nutrition-container {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    margin-top: .8rem;
+}
+
+.menu-item-nutrition-icon {
+    font-size: 1.2rem;
+    color: var(--secondary-color)
+}
+
+.menu-item-nutrition {
+    display: flex;
+    gap: .5rem;
+    font-size: 1.1rem;
+}
+
+.menu-item-restaurant {
+    font-weight: normal;
+    font-family: var(--title-font);
+    font-size: 1.8rem;
+    margin-bottom: -1rem;
+}
+
+.menu-item-name {
+    font-size: 1.1rem;
+    height: 2rem;
+}
+
+.menu-item-card-image {
+    height: 14rem;
+    width: 18rem;
+    object-fit: cover;
+}
+
+.menu-item-card-name-review {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-item-card-text {
+    font-size: .9rem;
+    margin: .5rem 0;
+}
+
+.menu-item-card-save-directions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.menu-item-card-order {
+    transition: background-color .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    height: 2rem;
+    width: 8.8rem;
+    border: none;
+    border-radius: 10rem;
+    font-family: var(--primary-font);
+    font-size: 1.2rem;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    margin-top: .8rem;
+}
+
+.menu-item-card-order:hover {
+    transition: background-color .2s ease;
+    background-color: var(--secondary-color-hover);
+}
+
+.menu-item-card-save {
+    transition: background-color .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    height: 2rem;
+    width: 8rem;
+    border: 0;
+    border-radius: 10rem;
+    font-family: var(--primary-font);
+    font-size: 1.2rem;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    margin-top: .8rem;
+}
+
+.menu-item-card-save:hover {
+    transition: background-color .2s ease;
+    background-color: var(--secondary-color-hover);
+}
+
+.menu-item-card-icon {
+    margin-top: 1.5rem;
+}
+
+.menu-item-card-directions {
+    transition: background-color .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    height: 2rem;
+    width: 10rem;
+    border: none;
+    border-radius: 10rem;
+    font-family: var(--primary-font);
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    margin-top: .8rem;
+}
+
+.menu-item-card-directions:hover {
+    transition: background-color .2s ease;
+    background-color: var(--primary-color-hover)
+}

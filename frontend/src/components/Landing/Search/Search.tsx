@@ -3,8 +3,8 @@ import './Search.css';
 import { FaSearch, FaBookmark, FaExclamationCircle } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getMenuItemsThunk } from '../../../redux/menuItems';
-import { ISearchErrors } from '../../../../types/search';
-import { error } from 'console';
+import { ISearchErrors } from '../../../../types/menuItems';
+import { useNavigate } from 'react-router-dom';
 
 const Search = (): JSX.Element => {
     const [food, setFood] = useState('')
@@ -16,6 +16,7 @@ const Search = (): JSX.Element => {
     const [disabled, setDisabled] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const newErrors:ISearchErrors = {};
@@ -36,7 +37,6 @@ const Search = (): JSX.Element => {
     useEffect(() => {
 
         if (!isLoaded) {
-            // getMenuItems()
         }
         setIsLoaded(true);
     }, calories)
@@ -52,7 +52,7 @@ const Search = (): JSX.Element => {
                 minFat: fat[0], maxFat: fat[1]
             }));
             if (getMenuItems) {
-                console.log(getMenuItems)
+                navigate('/results')
             }
         }
 

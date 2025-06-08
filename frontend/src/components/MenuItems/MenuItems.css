@@ -1,0 +1,33 @@
+#menu-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-items-results {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    max-width: 100rem;
+}
+
+#menu-items-results-title {
+    font-family: var(--title-font);
+    font-weight: normal;
+    font-size: 3rem;
+}
+
+#menu-items-line {
+    border: 0;
+    height: .1rem;
+    width: 60%;
+    background-color: var(--secondary-color);
+    margin: -1rem 0 1.5rem;
+}
+
+#menu-items-results {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
