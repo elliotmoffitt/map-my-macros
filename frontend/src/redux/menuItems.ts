@@ -38,7 +38,7 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
         const nutritionParams: INutritionParams = {
             apiKey: SPOONACULAR_API_KEY,
             query: food,
-            number: '10',
+            number: '2',
             minCalories: minCalories,
             maxCalories: maxCalories,
             minProtein: minProtein,
