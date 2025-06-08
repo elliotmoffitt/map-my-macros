@@ -71,11 +71,19 @@ export const getMenuItemsThunk = (search: ISearch): any => async (dispatch: any)
     }
 }
 
+const saveSearchThunk = (search: ISearch): any => async (dispatch: any) => {
+        const {food, minCalories, maxCalories, minProtein, maxProtein,
+           minCarbs, maxCarbs, minFat, maxFat} = search
+        try {
+
+        } catch (e) {
+            console.log(e);
+        }
+}
+
 const initialState = {menuItems: []};
 
 const menuItemsReducer = (state = initialState, action: IActionCreator) => {
-    let newState = {...state};
-
     switch(action.type) {
         case GET_MENU_ITEMS:
             return {...state, menuItems: action.payload}

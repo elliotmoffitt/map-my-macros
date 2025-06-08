@@ -35,7 +35,6 @@
     color: red;
     margin: .25rem 1rem 0 -2rem;
     transition: display  1s ease-in-out;
-
 }
 
 .search-error-message {
@@ -129,11 +128,18 @@
     font-family: var(--primary-font);
 }
 
+#search-search-button:hover {
+    transition: background-color .2s ease;
+    background-color: var(--primary-color-hover)
+}
+
+
 #search-save-search-button {
+    transition: background-color .2s ease;
     transition: border .2s ease;
     height: 3rem;
     width: 12rem;
-    background: none;
+    background-color: var(--secondary-color);
     border-radius: 10rem;
     border: .15rem solid var(--secondary-color);
     font-size: 1rem;
@@ -141,6 +147,11 @@
     font-family: var(--primary-font);
     margin-top: 1rem;
     cursor: pointer;
+}
+
+#search-save-search-button:hover {
+    transition: background-color .2s ease;
+    background-color: var(--secondary-color-hover)
 }
 
 #search-save-search-button-disabled {

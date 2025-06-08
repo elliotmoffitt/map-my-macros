@@ -56,6 +56,17 @@ const Search = (): JSX.Element => {
             }
         }
 
+    const handleSaveSearch = async () => {
+        const saveSearch = await dispatch(
+            saveSearchThunk({
+                food: food,
+                minCalories: calories[0], maxCalories: calories[1],
+                minProtein: protein[0], maxProtein: protein[1],
+                minCarbs: carbs[0], maxCarbs: carbs[1],
+                minFat: fat[0], maxFat: fat[1]
+            })
+        )
+    }
 
     if (isLoaded) {
 
@@ -166,10 +177,15 @@ const Search = (): JSX.Element => {
                 onChange={(e) => setFood(e.target.value)}>
                 </input>
           </div>
-         <button id={disabled ? 'search-search-button-disabled' : 'search-search-button'} type='submit' disabled={disabled}>
+         <button id={disabled ? 'search-search-button-disabled' : 'search-search-button'} type='submit'
+                 disabled={disabled}>
             <span className='search-search-buttons-text'>Search<FaSearch/></span>
             </button>
-         <button id={disabled ? 'search-save-search-button-disabled' : 'search-save-search-button'} type='submit' disabled={disabled}><span className='search-search-buttons-text'>Save Search<FaBookmark/></span></button>
+         <button id={disabled ? 'search-save-search-button-disabled' : 'search-save-search-button'}
+                 disabled={disabled}
+                 onClick={() => handleSaveSearch()}>
+                    <span className='search-search-buttons-text'>Save Search<FaBookmark/></span>
+        </button>
         </form>
     )
   }
