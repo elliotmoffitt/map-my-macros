@@ -12,9 +12,9 @@ const { User, UserImage } = db
 const router = require('express').Router();
 
 
-// router.get('/menuItems', async(req: Request, res: Response, next: NextFunction) => {
-//     const {menuItem} = req;
-//     if (menuItem) {
+router.get('/savedSearches', async(req: Request, res: Response, next: NextFunction) => {
+    const {menuItem} = req;
+    if (menuItem) {
 
-//     }
-// })
+    }
+})
