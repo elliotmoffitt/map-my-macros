@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { getMenuItemsThunk } from '../../../redux/menuItems';
 import { ISearchErrors } from '../../../../types/menuItems';
 import { useNavigate } from 'react-router-dom';
+import SavedSearches from './SavedSearches';
 
 const Search = (): JSX.Element => {
     const [food, setFood] = useState('')
@@ -74,6 +75,7 @@ const Search = (): JSX.Element => {
         <form onSubmit={handleSubmit} id='search'>
           <h3 id='search-title'>Find your favorite foods</h3>
           <hr id='search-line'/>
+          <SavedSearches />
           <div className='search-input-title-container'>
             <div className='search-input-title-error-container'>
                 <div className='search-error-icon-message'>
