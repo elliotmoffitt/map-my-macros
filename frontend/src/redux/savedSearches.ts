@@ -40,6 +40,8 @@ export const getSavedSearchesThunk = (): any => async (dispatch: any) => {
   }
 };
 
+export const saveSearchThunk = async () => {};
+
 const initialState = { savedSearches: [] };
 
 const savedSearchesReducer = (state = initialState, action: IActionCreator) => {
