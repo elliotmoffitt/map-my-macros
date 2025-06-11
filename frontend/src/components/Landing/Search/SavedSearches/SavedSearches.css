@@ -1,0 +1,36 @@
+#saved-searches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+#saved-searches-title {
+  margin: 0.5rem;
+  font-size: 1.2rem;
+}
+
+#saved-searches-dropdown {
+  background-color: white;
+  height: 0.5rem;
+  font-family: var(--primary-font);
+}
+
+.saved-searches-text-field .MuiOutlinedInput-root {
+  height: 2.2rem;
+  border-radius: 10rem;
+  background-color: white;
+  font-size: 0.8rem;
+}
+
+.saved-searches-text-field .MuiOutlinedInput-root fieldset {
+  border: none;
+}
+
+.saved-searches-text-field:hover fieldset {
+  border-color: var(--primary-color);
+}
+
+.saved-searches-text-field .Mui-focused fieldset {
+  border-color: var(--primary-color);
+}
