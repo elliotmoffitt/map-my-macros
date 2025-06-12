@@ -7,6 +7,7 @@ import { ISearchErrors } from "../../../../types/menuItems";
 import { useNavigate } from "react-router-dom";
 import SavedSearches from "./SavedSearches";
 import { PiSketchLogoFill } from "react-icons/pi";
+import SaveSearchModal from "./SaveSearchModal";
 
 const Search = (): JSX.Element => {
   const [food, setFood] = useState("");
@@ -16,9 +17,12 @@ const Search = (): JSX.Element => {
   const [fat, setFat] = useState(["", ""]);
   const [errors, setErrors] = useState<ISearchErrors>({});
   const [disabled, setDisabled] = useState(false);
+  const [selectedSearch, setSelectedSearch] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(selectedSearch);
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
@@ -71,20 +75,10 @@ const Search = (): JSX.Element => {
     }
   };
 
-  const handleSaveSearch = async () => {
-    const saveSearch = await dispatch(
-      saveSearchThunk({
-        food: food,
-        minCalories: calories[0],
-        maxCalories: calories[1],
-        minProtein: protein[0],
-        maxProtein: protein[1],
-        minCarbs: carbs[0],
-        maxCarbs: carbs[1],
-        minFat: fat[0],
-        maxFat: fat[1],
-      })
-    );
+  const handleSavedSearch = (selectedSavedSearch: boolean) => {
+    if (selectedSavedSearch) {
+      setSelectedSearch(selectedSavedSearch);
+    }
   };
 
   const handleSavedSearchSelect = (selected) => {
@@ -119,7 +113,7 @@ const Search = (): JSX.Element => {
               )}
               <p className="search-error-message">{errors.calories}</p>
             </div>
-            <h4 className="search-input-title">Calories</h4>
+            <label className="search-input-title">Calories</label>
           </div>
           <div className="search-input-container">
             <input
@@ -153,7 +147,7 @@ const Search = (): JSX.Element => {
               )}
               <p className="search-error-message">{errors.protein}</p>
             </div>
-            <h4 className="search-input-title">Protein</h4>
+            <label className="search-input-title">Protein</label>
           </div>
           <div className="search-input-container">
             <input
@@ -185,7 +179,7 @@ const Search = (): JSX.Element => {
               )}
               <p className="search-error-message">{errors.carbs}</p>
             </div>
-            <h4 className="search-input-title">Carbs</h4>
+            <label className="search-input-title">Carbs</label>
           </div>
           <div className="search-input-container">
             <input
@@ -217,7 +211,7 @@ const Search = (): JSX.Element => {
               )}
               <p className="search-error-message">{errors.fat}</p>
             </div>
-            <h4 className="search-input-title">Fat</h4>
+            <label className="search-input-title">Fat</label>
           </div>
           <div className="search-input-container">
             <input
@@ -260,20 +254,11 @@ const Search = (): JSX.Element => {
             <FaSearch />
           </span>
         </button>
-        <button
-          id={
-            disabled
-              ? "search-save-search-button-disabled"
-              : "search-save-search-button"
-          }
+        <SaveSearchModal
           disabled={disabled}
-          onClick={() => handleSaveSearch()}
-        >
-          <span className="search-search-buttons-text">
-            Save Search
-            <FaBookmark />
-          </span>
-        </button>
+          macros={[food, calories, protein, carbs, fat]}
+          onSavedSearch={handleSavedSearch}
+        />
       </form>
     );
   } else return <h2>Loading...</h2>;

@@ -1,6 +1,7 @@
 import { url } from "inspector";
 import { IActionCreator } from "./types/redux";
 import { ISearch, INutritionParams } from "./types/search";
+import { csrfFetch } from "./csrf";
 
 const GET_SAVED_SEARCHES = "savedSearches/GET_SAVED_SEARCHES";
 const SAVE_SEARCH = "savedSearches/SAVE_SEARCH";
@@ -40,14 +41,81 @@ export const getSavedSearchesThunk = (): any => async (dispatch: any) => {
   }
 };
 
-export const saveSearchThunk = async () => {};
+export const saveSearchThunk = (savedSearch: any) => async (dispatch: any) => {
+  try {
+    const [
+      name,
+      food,
+      minCalories,
+      maxCalories,
+      minProtein,
+      maxProtein,
+      minCarbs,
+      maxCarbs,
+      minFat,
+      maxFat,
+    ] = savedSearch;
+    const res = await csrfFetch("/api/savedSearches", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        food,
+        minCalories,
+        maxCalories,
+        minProtein,
+        maxProtein,
+        minCarbs,
+        maxCarbs,
+        minFat,
+        maxFat,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      await dispatch(saveSearch(data));
+      return data;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteSavedSearchThunk =
+  (savedSearchId: number) => async (dispatch: any) => {
+    try {
+      const res = await csrfFetch(`/api/savedSearches/${savedSearchId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (res.ok) {
+        await dispatch(deleteSavedSearch(savedSearchId));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
 const initialState = { savedSearches: [] };
 
 const savedSearchesReducer = (state = initialState, action: IActionCreator) => {
+  let newState;
   switch (action.type) {
     case GET_SAVED_SEARCHES:
       return { ...state, savedSearches: action.payload };
+    case SAVE_SEARCH:
+      return {
+        ...state,
+        savedSearches: [...state.savedSearches, action.payload],
+      };
+    case DELETE_SAVED_SEARCH:
+      newState = { ...state };
+      newState.savedSearches = state.savedSearches.filter(
+        (savedSearch) => savedSearch.id !== action.payload
+      );
+      newState.byId = { ...state.byId };
+      delete newState.byId[action.payload];
+      return newState;
     default:
       return state;
   }

@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAppSelector } from "../../../../redux/store";
-import { getSavedSearchesThunk } from "../../../../redux/savedSearches";
+import {
+  deleteSavedSearchThunk,
+  getSavedSearchesThunk,
+} from "../../../../redux/savedSearches";
 import { useDispatch } from "react-redux";
+import { FaTrash } from "react-icons/fa";
 
-const SavedSearches = ({ onSavedSearchSelect }) => {
+const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const savedSearches = useAppSelector(
@@ -22,7 +26,15 @@ const SavedSearches = ({ onSavedSearchSelect }) => {
     if (!isLoaded) {
       getAllSavedSearches();
     }
-  }, [dispatch, isLoaded, savedSearches]);
+  }, [dispatch, isLoaded, savedSearches, newSavedSearch]);
+
+  const handleDeleteSavedSearch = async (e, savedSearchId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSavedSearchSelect(true);
+    await dispatch(deleteSavedSearchThunk(savedSearchId));
+  };
+
   if (isLoaded) {
     return (
       <div id="saved-searches">
@@ -32,14 +44,26 @@ const SavedSearches = ({ onSavedSearchSelect }) => {
           disablePortal
           options={savedSearches}
           getOptionLabel={(savedSearch: any) => savedSearch.name}
-          renderOption={(savedSearches, savedSearch) => (
-            <li {...savedSearches} key={savedSearch.id}>
-              {savedSearch.name}
+          renderOption={(props, savedSearch) => (
+            <li
+              {...props}
+              className="saved-searches-option"
+              key={`${savedSearch.id}-${Date.now()}`}
+            >
+              <span className="saved-searches-option-text">
+                {savedSearch.name}
+              </span>
+              <button
+                className="saved-searches-option-delete"
+                onClick={(e) => {
+                  handleDeleteSavedSearch(e, savedSearch.id);
+                }}
+                formNoValidate
+              >
+                <FaTrash />
+              </button>
             </li>
           )}
-          onChange={(_e, selectedSearch) => {
-            onSavedSearchSelect(selectedSearch);
-          }}
           sx={{ width: 300 }}
           slotProps={{
             popper: {

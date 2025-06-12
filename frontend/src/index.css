@@ -1,11 +1,11 @@
 :root {
-    color: white;
-    background-color: black;
-    font-family: Montserrat;
-    --title-font: Bebas Neue;
-    --primary-font: Montserrat;
-    --primary-color: #1E90FF;
-    --primary-color-hover: #007bf6;
-    --secondary-color: #FFA91E;
-    --secondary-color-hover: #f09400;
+  color: white;
+  background-color: black;
+  font-family: Montserrat;
+  --title-font: Bebas Neue;
+  --primary-font: Montserrat;
+  --primary-color: #1e90ff;
+  --primary-color-hover: #3399ff;
+  --secondary-color: #ffa91e;
+  --secondary-color-hover: #ffb53e;
 }
