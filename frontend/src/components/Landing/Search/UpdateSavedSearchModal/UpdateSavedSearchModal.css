@@ -1,4 +1,4 @@
-#save-search-modal-save-search {
+#update-saved-search-modal-update-saved-search {
   display: flex;
   gap: 1rem;
   transition: background-color 0.2s ease;
@@ -17,12 +17,28 @@
   text-transform: none;
 }
 
-#save-search-modal-save-search:hover {
+#update-search-modal-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 40rem;
+  width: 30rem;
+  background-color: black;
+  border: 2px solid white;
+  box-shadow: 24;
+}
+
+#update-saved-search-modal-update-saved-search:hover {
   transition: background-color 0.2s ease;
   background-color: var(--secondary-color-hover);
 }
 
-#save-search-modal-save-search-disabled {
+#update-saved-search-modal-update-saved-search-disabled {
   display: flex;
   gap: 1rem;
   font-weight: bold;
@@ -39,12 +55,12 @@
   margin-top: 1rem;
 }
 
-#save-search-modal-line {
+#update-saved-search-modal-line {
   border-color: var(--secondary-color);
   margin: -1.5rem 0 1.5rem;
 }
 
-#save-search-modal-modal {
+#update-saved-search-modal-modal {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -62,18 +78,18 @@
   gap: 1rem;
 }
 
-#save-search-modal-title {
+#update-saved-search-modal-title {
   font-weight: normal;
   font-family: var(--title-font);
   font-size: 2.2rem;
   margin-top: -0.2rem;
 }
 
-#save-search-modal-input-title {
+#update-saved-search-modal-input-title {
   font-weight: bold;
 }
 
-#save-search-modal-input {
+#update-saved-search-modal-input {
   height: 2rem;
   border: 0;
   border-radius: 10rem;
@@ -81,16 +97,16 @@
   font-family: var(--primary-font);
 }
 
-#save-search-modal-input:focus {
+#update-saved-search-modal-input:focus {
   outline: 0;
 }
 
-#save-search-modal-cancel-save {
+#update-saved-search-modal-cancel-save {
   display: flex;
   gap: 1rem;
 }
 
-#save-search-modal-cancel {
+#update-saved-search-modal-cancel {
   display: flex;
   gap: 1rem;
   transition: background-color 0.2s ease;
@@ -108,7 +124,7 @@
   transition: background-color 0.2s ease;
 }
 
-#save-search-modal-save {
+#update-saved-search-modal-save {
   display: flex;
   gap: 1rem;
   transition: background-color 0.2s ease;
@@ -125,7 +141,7 @@
   text-transform: none;
 }
 
-#save-search-modal-save-disabled {
+#update-saved-search-modal-save-disabled {
   display: flex;
   gap: 1rem;
   transition: background-color 0.2s ease;
@@ -142,12 +158,12 @@
   text-transform: none;
 }
 
-#save-search-modal-cancel:hover {
+#update-saved-search-modal-cancel:hover {
   transition: background-color 0.2s ease;
   background-color: rgb(255, 46, 46);
 }
 
-#save-search-modal-save:hover {
+#update-saved-search-modal-save:hover {
   transition: background-color 0.2s ease;
   background-color: rgb(0, 158, 0);
 }
