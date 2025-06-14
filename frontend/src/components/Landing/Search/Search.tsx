@@ -9,6 +9,7 @@ import SavedSearches from "./SavedSearches";
 import { PiSketchLogoFill } from "react-icons/pi";
 import SaveSearchModal from "./SaveSearchModal";
 import { useAppSelector } from "../../../redux/store";
+import { getSavedSearchesThunk } from "../../../redux/savedSearches";
 
 const Search = (): JSX.Element => {
   const [food, setFood] = useState("");
@@ -22,8 +23,6 @@ const Search = (): JSX.Element => {
   const user = useAppSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(user);
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
@@ -78,6 +77,7 @@ const Search = (): JSX.Element => {
 
   const handleSavedSearchSelect = (selected) => {
     if (selected) {
+      console.log(selected, 'SELECTEDDDD')
       setCalories([selected["minCalories"], selected["maxCalories"]]);
       setProtein([selected["minProtein"], selected["maxProtein"]]);
       setCarbs([selected["minCarbs"], selected["maxCarbs"]]);
@@ -97,7 +97,7 @@ const Search = (): JSX.Element => {
       <form onSubmit={handleSubmit} id="search">
         <h3 id="search-title">Find your favorite foods</h3>
         <hr id="search-line" />
-        <SavedSearches onSavedSearchSelect={handleSavedSearchSelect} />
+        <SavedSearches onSavedSearchSelect={handleSavedSearchSelect} onUpdatedSearch={handleSavedSearchSelect} />
         <div className="search-input-title-container">
           <div className="search-input-title-error-container">
             <div className="search-error-icon-message">

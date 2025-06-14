@@ -48,7 +48,7 @@
 
 .saved-searches-option-edit:hover {
   transition: color 1s ease;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   transition: background-color 0.2s ease;
   background-color: rgb(239, 239, 239);
 }

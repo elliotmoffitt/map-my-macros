@@ -12,10 +12,11 @@ import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import UpdateSavedSearchModal from "../UpdateSavedSearchModal";
 
-const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
+const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSearchToEdit, setSelectedSearchToEdit] = useState(null);
+  const [selectedSearch, setSelectedSearch] = useState(null);
   const dispatch = useDispatch();
   const savedSearches = useAppSelector(
     (state) => state.savedSearches.savedSearches
@@ -29,12 +30,12 @@ const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
     if (!isLoaded) {
       getAllSavedSearches();
     }
-  }, [dispatch, isLoaded, savedSearches, newSavedSearch]);
+  }, [dispatch, isLoaded, savedSearches]);
 
   const handleDeleteSavedSearch = async (e, savedSearchId: number) => {
     e.preventDefault();
     e.stopPropagation();
-    onSavedSearchSelect(true);
+    setSelectedSearch(null);
     await dispatch(deleteSavedSearchThunk(savedSearchId));
   };
 
@@ -50,6 +51,11 @@ const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
     setSelectedSearchToEdit(null);
   };
 
+  const handleUpdatedSearch = (updatedSearch) => {
+    setSelectedSearch(updatedSearch);
+    onUpdatedSearch?.(updatedSearch);
+  }
+
   if (!isLoaded) return <h2>Loading...</h2>;
 
   return (
@@ -60,12 +66,14 @@ const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
           open={modalOpen}
           handleClose={handleCloseModal}
           savedSearch={selectedSearchToEdit}
+          onUpdatedSearch={handleUpdatedSearch}
         />
       )}
 
       <Autocomplete
         id="saved-searches-dropdown"
         disablePortal
+        value={selectedSearch}
         options={savedSearches}
         getOptionLabel={(savedSearch: any) => savedSearch.name}
         renderOption={(props, savedSearch) => (
@@ -96,6 +104,7 @@ const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
           </li>
         )}
         onChange={(_e, selectedSearch) => {
+          setSelectedSearch(selectedSearch)
           onSavedSearchSelect(selectedSearch);
         }}
         sx={{ width: 300 }}

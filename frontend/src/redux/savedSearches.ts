@@ -6,7 +6,7 @@ import { csrfFetch } from "./csrf";
 const GET_SAVED_SEARCHES = "savedSearches/GET_SAVED_SEARCHES";
 const SAVE_SEARCH = "savedSearches/SAVE_SEARCH";
 const UPDATE_SAVED_SEARCH = "savedSearches/UPDATE_SEARCH";
-const DELETE_SAVED_SEARCH = "savedSearches/UPDATE_SEARCH";
+const DELETE_SAVED_SEARCH = "savedSearches/DELETE_SEARCH";
 
 const getSavedSearches = (savedSearches: any) => ({
   type: GET_SAVED_SEARCHES,
@@ -20,7 +20,7 @@ const saveSearch = (search: any) => ({
 
 const updateSavedSearch = (savedSearch: any) => ({
   type: UPDATE_SAVED_SEARCH,
-  payload: DELETE_SAVED_SEARCH,
+  payload: savedSearch,
 });
 
 const deleteSavedSearch = (savedSearchId: number) => ({
@@ -81,46 +81,47 @@ export const saveSearchThunk = (savedSearch: any) => async (dispatch: any) => {
   }
 };
 
-// export const updateSavedSearchThunk =
-//   (savedSearch: any) => async (dispatch: any) => {
-//     try {
-//       const [
-//         name,
-//         food,
-//         minCalories,
-//         maxCalories,
-//         minProtein,
-//         maxProtein,
-//         minCarbs,
-//         maxCarbs,
-//         minFat,
-//         maxFat,
-//       ] = savedSearch;
-//       const res = await csrfFetch("/api/savedSearches", {
-//         method: "PUT",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//           name,
-//           food,
-//           minCalories,
-//           maxCalories,
-//           minProtein,
-//           maxProtein,
-//           minCarbs,
-//           maxCarbs,
-//           minFat,
-//           maxFat,
-//         }),
-//       });
-//       if (res.ok) {
-//         const data = await res.json();
-//         await dispatch(updateSavedSearch(data));
-//         return data;
-//       }
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   };
+export const updateSavedSearchThunk =
+  (savedSearch: any) => async (dispatch: any) => {
+    try {
+      const {
+        id,
+        name,
+        food,
+        minCalories,
+        maxCalories,
+        minProtein,
+        maxProtein,
+        minCarbs,
+        maxCarbs,
+        minFat,
+        maxFat,
+      } = savedSearch;
+      const res = await csrfFetch(`/api/savedSearches/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          food,
+          minCalories,
+          maxCalories,
+          minProtein,
+          maxProtein,
+          minCarbs,
+          maxCarbs,
+          minFat,
+          maxFat,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        await dispatch(updateSavedSearch(data));
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
 export const deleteSavedSearchThunk =
   (savedSearchId: number) => async (dispatch: any) => {
@@ -152,8 +153,11 @@ const savedSearchesReducer = (state = initialState, action: IActionCreator) => {
     case UPDATE_SAVED_SEARCH:
       return {
         ...state,
-        savedSearches: [...state.savedSearches, action.payload],
+        savedSearches: state.savedSearches.map(s =>
+          s.id === action.payload.id ? action.payload : s
+        ),
       };
+
     case DELETE_SAVED_SEARCH:
       newState = { ...state };
       newState.savedSearches = state.savedSearches.filter(

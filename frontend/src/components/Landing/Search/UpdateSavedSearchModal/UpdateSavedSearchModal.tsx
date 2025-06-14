@@ -5,17 +5,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
-import { FaBookmark } from "react-icons/fa";
+import { FaBookmark, FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { saveSearchThunk } from "../../../../redux/savedSearches";
+import { saveSearchThunk, updateSavedSearchThunk } from "../../../../redux/savedSearches";
 import { useAppSelector } from "../../../../redux/store";
 import { useNavigate } from "react-router-dom";
 import { ISearchErrors } from "../../../../../types/menuItems";
 
 // const UpdateSavedSearchModal = ({ disabled }: { disabled: boolean }) => {
-const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
-  console.log(savedSearch);
+const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearch }) => {
   const {
+    id,
     name,
     food,
     minCalories,
@@ -42,8 +42,6 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
   const user = useAppSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(name)
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
@@ -76,39 +74,30 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
     setIsLoaded(true);
   }, calories);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdateSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //   const getMenuItems = await dispatch(
-    //     getMenuItemsThunk({
-    //       food: food,
-    //       minCalories: calories[0],
-    //       maxCalories: calories[1],
-    //       minProtein: protein[0],
-    //       maxProtein: protein[1],
-    //       minCarbs: carbs[0],
-    //       maxCarbs: carbs[1],
-    //       minFat: fat[0],
-    //       maxFat: fat[1],
-    //     })
-    //   );
-    //   if (getMenuItems) {
-    //     navigate("/results");
-    //   }
-    // };
+    const updatedSearch = await dispatch(
+      updateSavedSearchThunk({
+        id: id,
+        name: updatedName,
+        food: updatedFood,
+        minCalories: calories[0],
+        maxCalories: calories[1],
+        minProtein: protein[0],
+        maxProtein: protein[1],
+        minCarbs: carbs[0],
+        maxCarbs: carbs[1],
+        minFat: fat[0],
+        maxFat: fat[1],
+      })
+    );
+    console.log(updatedSearch)
+    if (updatedSearch) {
+      onUpdatedSearch(updatedSearch);
+      handleClose(true);
+    }
   };
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "black",
-    border: "2px solid white",
-    boxShadow: 24,
-    p: 4,
 
-    // const [open, setOpen] = useState(false);
-  };
   return (
     <Modal
       open={open}
@@ -123,7 +112,8 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             <Typography id="modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography> */}
-        <h2>{name}</h2>
+        <input id='update-search-name' value={updatedName ? updatedName : ''} onChange={(e) => setUpdatedName(e.target.value)}></input>
+        <hr id='update-search-line'></hr>
         <div className="update-search-input-title-container">
           <div className="update-search-input-title-error-container">
             <div className="update-search-error-icon-message">
@@ -259,8 +249,8 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
           <input
             id="update-search-input-food"
             required
-            onChange={(e) => setFood(e.target.value)}
-            value={food ? food : ""}
+            onChange={(e) => setUpdatedFood(e.target.value)}
+            value={updatedFood ? updatedFood : ""}
           ></input>
         </div>
         <div id="update-search-cancel-save">
@@ -273,15 +263,16 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
                 ? "update-search-save-disabled"
                 : "update-search-save"
             }
-            // onClick={handleUpdateSearch}
+            onClick={handleUpdateSearch}
             type="submit"
             disabled={nameEmpty}
+            formNoValidate
           >
             Save
           </Button>
         </div>
       </Box>
-    </Modal>
+    </Modal >
   );
 };
 
