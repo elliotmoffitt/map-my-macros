@@ -9,14 +9,17 @@ import {
 } from "../../../../redux/savedSearches";
 import { useDispatch } from "react-redux";
 import { FaTrash } from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
+import UpdateSavedSearchModal from "../UpdateSavedSearchModal";
 
 const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSearchToEdit, setSelectedSearchToEdit] = useState(null);
   const dispatch = useDispatch();
   const savedSearches = useAppSelector(
     (state) => state.savedSearches.savedSearches
   );
-  console.log(savedSearches);
 
   useEffect(() => {
     const getAllSavedSearches = async () => {
@@ -35,63 +38,93 @@ const SavedSearches = ({ onSavedSearchSelect, newSavedSearch }) => {
     await dispatch(deleteSavedSearchThunk(savedSearchId));
   };
 
-  if (isLoaded) {
-    return (
-      <div id="saved-searches">
-        <h4 id="saved-searches-title">Saved Searches</h4>
-        <Autocomplete
-          id="saved-searches-dropdown"
-          disablePortal
-          options={savedSearches}
-          getOptionLabel={(savedSearch: any) => savedSearch.name}
-          renderOption={(props, savedSearch) => (
-            <li
-              {...props}
-              className="saved-searches-option"
-              key={`${savedSearch.id}-${Date.now()}`}
-            >
-              <span className="saved-searches-option-text">
-                {savedSearch.name}
-              </span>
+  const handleOpenModal = (e, search) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedSearchToEdit(search);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedSearchToEdit(null);
+  };
+
+  if (!isLoaded) return <h2>Loading...</h2>;
+
+  return (
+    <div id="saved-searches">
+      <h4 id="saved-searches-title">Saved Searches</h4>
+      {selectedSearchToEdit && (
+        <UpdateSavedSearchModal
+          open={modalOpen}
+          handleClose={handleCloseModal}
+          savedSearch={selectedSearchToEdit}
+        />
+      )}
+
+      <Autocomplete
+        id="saved-searches-dropdown"
+        disablePortal
+        options={savedSearches}
+        getOptionLabel={(savedSearch: any) => savedSearch.name}
+        renderOption={(props, savedSearch) => (
+          <li
+            {...props}
+            className="saved-searches-option"
+            key={`${savedSearch.id}-${Date.now()}`}
+          >
+            <span className="saved-searches-option-text">
+              {savedSearch.name}
+            </span>
+            <div className="saved-searches-option-buttons">
               <button
-                className="saved-searches-option-delete"
-                onClick={(e) => {
-                  handleDeleteSavedSearch(e, savedSearch.id);
-                }}
+                className="saved-searches-option-button saved-searches-option-edit"
+                onClick={(e) => handleOpenModal(e, savedSearch)}
+                formNoValidate
+              >
+                <FaPencil />
+              </button>
+              <button
+                className="saved-searches-option-button saved-searches-option-delete"
+                onClick={(e) => handleDeleteSavedSearch(e, savedSearch.id)}
                 formNoValidate
               >
                 <FaTrash />
               </button>
-            </li>
-          )}
-          sx={{ width: 300 }}
-          slotProps={{
-            popper: {
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 4],
-                  },
-                },
-              ],
-            },
-            paper: {
-              sx: {
-                "& .MuiAutocomplete-option": {
-                  fontFamily: "var(--primary-font)",
-                  fontSize: "14px",
+            </div>
+          </li>
+        )}
+        onChange={(_e, selectedSearch) => {
+          onSavedSearchSelect(selectedSearch);
+        }}
+        sx={{ width: 300 }}
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 4],
                 },
               },
+            ],
+          },
+          paper: {
+            sx: {
+              "& .MuiAutocomplete-option": {
+                fontFamily: "var(--primary-font)",
+                fontSize: "14px",
+              },
             },
-          }}
-          renderInput={(params) => (
-            <TextField className="saved-searches-text-field" {...params} />
-          )}
-        />
-      </div>
-    );
-  } else return <h2>Loading...</h2>;
+          },
+        }}
+        renderInput={(params) => (
+          <TextField className="saved-searches-text-field" {...params} />
+        )}
+      />
+    </div>
+  );
 };
 
 export default SavedSearches;

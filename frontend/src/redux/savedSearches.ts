@@ -81,6 +81,47 @@ export const saveSearchThunk = (savedSearch: any) => async (dispatch: any) => {
   }
 };
 
+// export const updateSavedSearchThunk =
+//   (savedSearch: any) => async (dispatch: any) => {
+//     try {
+//       const [
+//         name,
+//         food,
+//         minCalories,
+//         maxCalories,
+//         minProtein,
+//         maxProtein,
+//         minCarbs,
+//         maxCarbs,
+//         minFat,
+//         maxFat,
+//       ] = savedSearch;
+//       const res = await csrfFetch("/api/savedSearches", {
+//         method: "PUT",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           name,
+//           food,
+//           minCalories,
+//           maxCalories,
+//           minProtein,
+//           maxProtein,
+//           minCarbs,
+//           maxCarbs,
+//           minFat,
+//           maxFat,
+//         }),
+//       });
+//       if (res.ok) {
+//         const data = await res.json();
+//         await dispatch(updateSavedSearch(data));
+//         return data;
+//       }
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   };
+
 export const deleteSavedSearchThunk =
   (savedSearchId: number) => async (dispatch: any) => {
     try {
@@ -104,6 +145,11 @@ const savedSearchesReducer = (state = initialState, action: IActionCreator) => {
     case GET_SAVED_SEARCHES:
       return { ...state, savedSearches: action.payload };
     case SAVE_SEARCH:
+      return {
+        ...state,
+        savedSearches: [...state.savedSearches, action.payload],
+      };
+    case UPDATE_SAVED_SEARCH:
       return {
         ...state,
         savedSearches: [...state.savedSearches, action.payload],

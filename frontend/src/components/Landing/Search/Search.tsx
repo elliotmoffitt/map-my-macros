@@ -4,10 +4,11 @@ import { FaSearch, FaBookmark, FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { getMenuItemsThunk } from "../../../redux/menuItems";
 import { ISearchErrors } from "../../../../types/menuItems";
-import { useNavigate } from "react-router-dom";
+import { useActionData, useNavigate } from "react-router-dom";
 import SavedSearches from "./SavedSearches";
 import { PiSketchLogoFill } from "react-icons/pi";
 import SaveSearchModal from "./SaveSearchModal";
+import { useAppSelector } from "../../../redux/store";
 
 const Search = (): JSX.Element => {
   const [food, setFood] = useState("");
@@ -17,12 +18,12 @@ const Search = (): JSX.Element => {
   const [fat, setFat] = useState(["", ""]);
   const [errors, setErrors] = useState<ISearchErrors>({});
   const [disabled, setDisabled] = useState(false);
-  const [selectedSearch, setSelectedSearch] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const user = useAppSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(selectedSearch);
+  console.log(user);
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
@@ -72,12 +73,6 @@ const Search = (): JSX.Element => {
     );
     if (getMenuItems) {
       navigate("/results");
-    }
-  };
-
-  const handleSavedSearch = (selectedSavedSearch: boolean) => {
-    if (selectedSavedSearch) {
-      setSelectedSearch(selectedSavedSearch);
     }
   };
 
@@ -254,11 +249,14 @@ const Search = (): JSX.Element => {
             <FaSearch />
           </span>
         </button>
-        <SaveSearchModal
-          disabled={disabled}
-          macros={[food, calories, protein, carbs, fat]}
-          onSavedSearch={handleSavedSearch}
-        />
+        {user ? (
+          <SaveSearchModal
+            disabled={disabled}
+            macros={[food, calories, protein, carbs, fat]}
+          />
+        ) : (
+          ""
+        )}
       </form>
     );
   } else return <h2>Loading...</h2>;

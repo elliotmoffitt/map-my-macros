@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { saveSearchThunk } from "../../../../redux/savedSearches";
 
 // const SaveSearchModal = ({ disabled }: { disabled: boolean }) => {
-const SaveSearchModal = ({ disabled, macros, onSavedSearch }) => {
+const SaveSearchModal = ({ disabled, macros }) => {
   const [food, calories, protein, carbs, fat] = macros;
   const [name, setName] = useState("");
   const [nameEmpty, setNameEmpty] = useState(false);
@@ -43,9 +43,9 @@ const SaveSearchModal = ({ disabled, macros, onSavedSearch }) => {
     name.length > 0 ? setNameEmpty(false) : setNameEmpty(true);
   }, [name, nameEmpty]);
 
-  useEffect(() => {
-    // if ()
-  }, [name, food, calories, protein, carbs, fat]);
+  // useEffect(() => {
+  //   // if ()
+  // }, [name, food, calories, protein, carbs, fat]);
 
   return (
     <div>
