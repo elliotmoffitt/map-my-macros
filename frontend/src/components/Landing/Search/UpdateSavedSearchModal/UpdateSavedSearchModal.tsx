@@ -16,7 +16,8 @@ import { ISearchErrors } from "../../../../../types/menuItems";
 const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
   console.log(savedSearch);
   const {
-    selectedFood,
+    name,
+    food,
     minCalories,
     maxCalories,
     minProtein,
@@ -29,7 +30,8 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
   // const [name, setName] = useState("");
   const [nameEmpty, setNameEmpty] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [food, setFood] = useState(selectedFood);
+  const [updatedName, setUpdatedName] = useState(name);
+  const [updatedFood, setUpdatedFood] = useState(food);
   const [calories, setCalories] = useState([minCalories, maxCalories]);
   const [protein, setProtein] = useState([minProtein, maxProtein]);
   const [carbs, setCarbs] = useState([minCarbs, maxCarbs]);
@@ -40,6 +42,8 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
   const user = useAppSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(name)
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
@@ -112,29 +116,29 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box id="update-search-modal-box">
-        <p style={{ color: "white" }}>{name}</p>
-        {/* <Typography id="modal-modal-title" variant="h6" component="h2">
+      <Box id="update-search-box">
+        {/* <Typography id="modal-title" variant="h6" component="h2">
             Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            </Typography>
+            <Typography id="modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
-        <div className="search-input-title-container">
-          <div className="search-input-title-error-container">
-            <div className="search-error-icon-message">
+            </Typography> */}
+        <h2>{name}</h2>
+        <div className="update-search-input-title-container">
+          <div className="update-search-input-title-error-container">
+            <div className="update-search-error-icon-message">
               {errors.calories && (
-                <p className="search-error-icon">
+                <p className="update-search-error-icon">
                   <FaExclamationCircle />
                 </p>
               )}
-              <p className="search-error-message">{errors.calories}</p>
+              <p className="update-search-error-message">{errors.calories}</p>
             </div>
-            <label className="search-input-title">Calories</label>
+            <label className="update-search-input-title">Calories</label>
           </div>
-          <div className="search-input-container">
+          <div className="update-search-input-container">
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="min"
               type="number"
               min={0}
@@ -144,7 +148,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
             <h4>—</h4>
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="max"
               type="number"
               min={0}
@@ -154,21 +158,21 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
           </div>
         </div>
-        <div className="search-input-title-container">
-          <div className="search-input-title-error-container">
-            <div className="search-error-icon-message">
+        <div className="update-search-input-title-container">
+          <div className="update-search-input-title-error-container">
+            <div className="update-search-error-icon-message">
               {errors.protein && (
-                <p className="search-error-icon">
+                <p className="update-search-error-icon">
                   <FaExclamationCircle />
                 </p>
               )}
-              <p className="search-error-message">{errors.protein}</p>
+              <p className="update-search-error-message">{errors.protein}</p>
             </div>
-            <label className="search-input-title">Protein</label>
+            <label className="update-search-input-title">Protein</label>
           </div>
-          <div className="search-input-container">
+          <div className="update-search-input-container">
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="min (g)"
               type="number"
               min={0}
@@ -177,7 +181,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
             <h4>—</h4>
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="max (g)"
               type="number"
               min={0}
@@ -186,21 +190,21 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
           </div>
         </div>
-        <div className="search-input-title-container">
-          <div className="search-input-title-error-container">
-            <div className="search-error-icon-message">
+        <div className="update-search-input-title-container">
+          <div className="update-search-input-title-error-container">
+            <div className="update-search-error-icon-message">
               {errors.carbs && (
-                <p className="search-error-icon">
+                <p className="update-search-error-icon">
                   <FaExclamationCircle />
                 </p>
               )}
-              <p className="search-error-message">{errors.carbs}</p>
+              <p className="update-search-error-message">{errors.carbs}</p>
             </div>
-            <label className="search-input-title">Carbs</label>
+            <label className="update-search-input-title">Carbs</label>
           </div>
-          <div className="search-input-container">
+          <div className="update-search-input-container">
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="min (g)"
               type="number"
               min={0}
@@ -209,7 +213,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
             <h4>—</h4>
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="max (g)"
               type="number"
               min={0}
@@ -218,21 +222,21 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
           </div>
         </div>
-        <div className="search-input-title-container">
-          <div className="search-input-title-error-container">
-            <div className="search-error-icon-message">
+        <div className="update-search-input-title-container">
+          <div className="update-search-input-title-error-container">
+            <div className="update-search-error-icon-message">
               {errors.fat && (
-                <p className="search-error-icon">
+                <p className="update-search-error-icon">
                   <FaExclamationCircle />
                 </p>
               )}
-              <p className="search-error-message">{errors.fat}</p>
+              <p className="update-search-error-message">{errors.fat}</p>
             </div>
-            <label className="search-input-title">Fat</label>
+            <label className="update-search-input-title">Fat</label>
           </div>
-          <div className="search-input-container">
+          <div className="update-search-input-container">
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="min (g)"
               type="number"
               min={0}
@@ -241,7 +245,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
             <h4>—</h4>
             <input
-              className="search-input"
+              className="update-search-input"
               placeholder="max (g)"
               type="number"
               min={0}
@@ -250,24 +254,24 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch }) => {
             ></input>
           </div>
         </div>
-        <div className="search-input-title-container">
-          <h4 id="search-input-title-food">Food</h4>
+        <div className="update-search-input-title-container">
+          <h4 id="update-search-input-title-food">Food</h4>
           <input
-            id="search-input-food"
+            id="update-search-input-food"
             required
             onChange={(e) => setFood(e.target.value)}
             value={food ? food : ""}
           ></input>
         </div>
-        <div id="save-search-modal-cancel-save">
-          <Button id="save-search-modal-cancel" onClick={handleClose}>
+        <div id="update-search-cancel-save">
+          <Button id="update-search-cancel" onClick={handleClose}>
             Cancel
           </Button>
           <Button
             id={
               nameEmpty
-                ? "save-search-modal-save-disabled"
-                : "save-search-modal-save"
+                ? "update-search-save-disabled"
+                : "update-search-save"
             }
             // onClick={handleUpdateSearch}
             type="submit"
