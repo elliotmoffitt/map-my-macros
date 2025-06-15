@@ -8,14 +8,14 @@ import { AnyAction } from "redux";
 
 interface IErrors {
   email: string;
-  password:string
+  password: string
 }
 
-function LoginFormModal():JSX.Element {
+function LoginFormModal(): JSX.Element {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<IErrors | AnyAction>({email: "", password: ""});
+  const [errors, setErrors] = useState<IErrors | AnyAction>({ email: "", password: "" });
   const { closeModal } = useModal();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,32 +35,34 @@ function LoginFormModal():JSX.Element {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <label>
+    <div id='login'>
+      <h1 id='login-title'>Log In</h1>
+      <form onSubmit={(e) => handleSubmit(e)} id='login-form'>
+        <label className='login-input-label'>
           Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className='login-input'
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
+        <label className='login-input-label'>
           Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className='login-input'
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" id='login-button'>Log In</button>
       </form>
-    </>
+    </div>
   );
 }
 
