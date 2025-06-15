@@ -11,15 +11,17 @@ import { useDispatch } from "react-redux";
 import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import UpdateSavedSearchModal from "../UpdateSavedSearchModal";
+import { ISearch } from "../../../../redux/types/search";
 
-const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }) => {
+const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }:
+  { onSavedSearchSelect: CallableFunction, onUpdatedSearch: CallableFunction }): JSX.Element => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedSearchToEdit, setSelectedSearchToEdit] = useState(null);
-  const [selectedSearch, setSelectedSearch] = useState(null);
+  const [selectedSearch, setSelectedSearch] = useState<ISearch | null>(null);
+  const [selectedSearchToEdit, setSelectedSearchToEdit] = useState<ISearch | null>(null);
   const dispatch = useDispatch();
   const savedSearches = useAppSelector(
-    (state) => state.savedSearches.savedSearches
+    (state) => state.savedSearches.allSavedSearches
   );
 
   useEffect(() => {
@@ -32,14 +34,14 @@ const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }) => {
     }
   }, [dispatch, isLoaded, savedSearches]);
 
-  const handleDeleteSavedSearch = async (e, savedSearchId: number) => {
+  const handleDeleteSavedSearch = async (e: React.MouseEvent<HTMLButtonElement>, savedSearchId: number) => {
     e.preventDefault();
     e.stopPropagation();
     setSelectedSearch(null);
     await dispatch(deleteSavedSearchThunk(savedSearchId));
   };
 
-  const handleOpenModal = (e, search) => {
+  const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>, search: ISearch) => {
     e.preventDefault();
     e.stopPropagation();
     setSelectedSearchToEdit(search);
@@ -51,7 +53,7 @@ const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }) => {
     setSelectedSearchToEdit(null);
   };
 
-  const handleUpdatedSearch = (updatedSearch) => {
+  const handleUpdatedSearch = (updatedSearch: ISearch) => {
     setSelectedSearch(updatedSearch);
     onUpdatedSearch?.(updatedSearch);
   }
@@ -95,7 +97,7 @@ const SavedSearches = ({ onSavedSearchSelect, onUpdatedSearch }) => {
               </button>
               <button
                 className="saved-searches-option-button saved-searches-option-delete"
-                onClick={(e) => handleDeleteSavedSearch(e, savedSearch.id)}
+                onClick={(e) => handleDeleteSavedSearch(e, savedSearch.id!)}
                 formNoValidate
               >
                 <FaTrash />

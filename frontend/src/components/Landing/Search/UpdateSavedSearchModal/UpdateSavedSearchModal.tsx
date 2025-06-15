@@ -1,19 +1,17 @@
 import "./UpdateSavedSearchModal.css";
-// import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
-import { FaBookmark, FaExclamationCircle } from "react-icons/fa";
+import { FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { saveSearchThunk, updateSavedSearchThunk } from "../../../../redux/savedSearches";
-import { useAppSelector } from "../../../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { updateSavedSearchThunk } from "../../../../redux/savedSearches";
 import { ISearchErrors } from "../../../../../types/menuItems";
+import { ISearch } from "../../../../redux/types/search";
 
-// const UpdateSavedSearchModal = ({ disabled }: { disabled: boolean }) => {
-const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearch }) => {
+const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearch }:
+  { open: boolean, handleClose: any, savedSearch: ISearch, onUpdatedSearch: CallableFunction }
+): JSX.Element => {
   const {
     id,
     name,
@@ -27,9 +25,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
     minFat,
     maxFat,
   } = savedSearch;
-  // const [name, setName] = useState("");
   const [nameEmpty, setNameEmpty] = useState(false);
-  const [updated, setUpdated] = useState(false);
   const [updatedName, setUpdatedName] = useState(name);
   const [updatedFood, setUpdatedFood] = useState(food);
   const [calories, setCalories] = useState([minCalories, maxCalories]);
@@ -39,13 +35,14 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
   const [errors, setErrors] = useState<ISearchErrors>({});
   const [disabled, setDisabled] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const user = useAppSelector((state) => state.session.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const newErrors: ISearchErrors = {};
     const macros = { calories, protein, carbs, fat };
+
+    if (!updatedName?.length) setNameEmpty(true)
+    else setNameEmpty(false)
 
     for (const [name, macro] of Object.entries(macros) as [
       keyof ISearchErrors,
@@ -62,11 +59,11 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
       newErrors.calories ||
       newErrors.protein ||
       newErrors.carbs ||
-      newErrors.fat
+      newErrors.fat || nameEmpty
     ) {
       setDisabled(true);
     } else setDisabled(false);
-  }, [calories, protein, carbs, fat]);
+  }, [calories, protein, carbs, fat, nameEmpty, updatedName]);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -74,7 +71,7 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
     setIsLoaded(true);
   }, calories);
 
-  const handleUpdateSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdateSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const updatedSearch = await dispatch(
       updateSavedSearchThunk({
@@ -106,12 +103,6 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
       aria-describedby="modal-modal-description"
     >
       <Box id="update-search-box">
-        {/* <Typography id="modal-title" variant="h6" component="h2">
-            Text in a modal
-            </Typography>
-            <Typography id="modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography> */}
         <input id='update-search-name' value={updatedName ? updatedName : ''} onChange={(e) => setUpdatedName(e.target.value)}></input>
         <hr id='update-search-line'></hr>
         <div className="update-search-input-title-container">
@@ -259,13 +250,13 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
           </Button>
           <Button
             id={
-              nameEmpty
+              disabled
                 ? "update-search-save-disabled"
                 : "update-search-save"
             }
             onClick={handleUpdateSearch}
-            type="submit"
-            disabled={nameEmpty}
+            type='button'
+            disabled={disabled}
             formNoValidate
           >
             Save

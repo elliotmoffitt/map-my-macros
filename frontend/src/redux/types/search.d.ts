@@ -1,15 +1,23 @@
 export interface ISearch {
-    minCalories: string;
-    maxCalories: string;
-    minProtein: string;
-    maxProtein: string;
-    minCarbs: string;
-    maxCarbs: string;
-    minFat: string;
-    maxFat: string;
-    food: string;
+    id?: number;
+    name?: string;
+    food?: string;
+    minCalories?: string;
+    maxCalories?: string;
+    minProtein?: string;
+    maxProtein?: string;
+    minCarbs?: string;
+    maxCarbs?: string;
+    minFat?: string;
+    maxFat?: string;
 }
 
+export interface ISearchState {
+    byId: {
+        [id: number]: ISearch;
+    };
+    allSavedSearches: ISearch[];
+}
 
 export interface INutritionParams {
     apiKey: string

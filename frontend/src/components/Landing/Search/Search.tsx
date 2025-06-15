@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Search.css";
-import { FaSearch, FaBookmark, FaExclamationCircle } from "react-icons/fa";
+import { FaSearch, FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { getMenuItemsThunk } from "../../../redux/menuItems";
 import { ISearchErrors } from "../../../../types/menuItems";
-import { useActionData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SavedSearches from "./SavedSearches";
-import { PiSketchLogoFill } from "react-icons/pi";
 import SaveSearchModal from "./SaveSearchModal";
 import { useAppSelector } from "../../../redux/store";
-import { getSavedSearchesThunk } from "../../../redux/savedSearches";
+import { ISearch } from "../../../redux/types/search";
 
 const Search = (): JSX.Element => {
   const [food, setFood] = useState("");
@@ -75,14 +74,13 @@ const Search = (): JSX.Element => {
     }
   };
 
-  const handleSavedSearchSelect = (selected) => {
+  const handleSavedSearchSelect = (selected: ISearch) => {
     if (selected) {
-      console.log(selected, 'SELECTEDDDD')
-      setCalories([selected["minCalories"], selected["maxCalories"]]);
-      setProtein([selected["minProtein"], selected["maxProtein"]]);
-      setCarbs([selected["minCarbs"], selected["maxCarbs"]]);
-      setFat([selected["minFat"], selected["maxFat"]]);
-      setFood(selected["food"]);
+      setCalories([selected["minCalories"] ?? "", selected["maxCalories"] ?? ""]);
+      setProtein([selected["minProtein"] ?? "", selected["maxProtein"] ?? ""]);
+      setCarbs([selected["minCarbs"] ?? "", selected["maxCarbs"] ?? ""]);
+      setFat([selected["minFat"] ?? "", selected["maxFat"] ?? ""]);
+      setFood(selected["food"] ?? "");
     } else {
       setCalories(["", ""]);
       setProtein(["", ""]);

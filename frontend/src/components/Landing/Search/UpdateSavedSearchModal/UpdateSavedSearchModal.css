@@ -120,8 +120,8 @@
   background: none;
   border: 0;
   color: white;
-  font-family: var(--title-font);
-  font-size: 3rem;
+  font-family: var(--primary-font);
+  font-size: 2rem;
   margin-bottom: 2rem;
 }
 

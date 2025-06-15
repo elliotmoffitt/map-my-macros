@@ -1,41 +1,37 @@
 import "./SaveSearchModal.css";
-// import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { saveSearchThunk } from "../../../../redux/savedSearches";
 
-// const SaveSearchModal = ({ disabled }: { disabled: boolean }) => {
-const SaveSearchModal = ({ disabled, macros }) => {
+const SaveSearchModal = ({ disabled, macros }:
+  { disabled: boolean, macros: [string, string[], string[], string[], string[]] }): JSX.Element => {
   const [food, calories, protein, carbs, fat] = macros;
   const [name, setName] = useState("");
   const [nameEmpty, setNameEmpty] = useState(false);
   const [open, setOpen] = useState(false);
-  const [updated, setUpdated] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
 
   const handleSaveSearch = async () => {
-    const savedSearch = await dispatch(
-      saveSearchThunk([
-        name,
-        food,
-        calories[0],
-        calories[1],
-        protein[0],
-        protein[1],
-        carbs[0],
-        carbs[1],
-        fat[0],
-        fat[1],
-      ])
+    await dispatch(
+      saveSearchThunk({
+        name: name,
+        food: food,
+        minCalories: calories[0],
+        maxCalories: calories[1],
+        minProtein: protein[0],
+        maxProtein: protein[1],
+        minCarbs: carbs[0],
+        maxCarbs: carbs[1],
+        minFat: fat[0],
+        maxFat: fat[1],
+      })
     );
-    // if (savedSearch) onSavedSearch(savedSearch);
     handleClose();
   };
 
@@ -43,12 +39,8 @@ const SaveSearchModal = ({ disabled, macros }) => {
     name.length > 0 ? setNameEmpty(false) : setNameEmpty(true);
   }, [name, nameEmpty]);
 
-  // useEffect(() => {
-  //   // if ()
-  // }, [name, food, calories, protein, carbs, fat]);
-
   return (
-    <div>
+    <>
       <Button
         onClick={handleOpen}
         id={
@@ -98,7 +90,7 @@ const SaveSearchModal = ({ disabled, macros }) => {
           </div>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 
