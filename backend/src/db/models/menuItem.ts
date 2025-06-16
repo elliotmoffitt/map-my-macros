@@ -27,6 +27,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      imageUrl: {
+        type: DataTypes.STRING,
+      },
       calories: {
         allowNull: false,
         type: DataTypes.STRING,

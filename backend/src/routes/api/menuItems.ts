@@ -8,7 +8,7 @@ const { Op } = require("sequelize");
 import db from "../../db/models";
 import { errors } from "../../typings/errors";
 import { NoResourceError } from "../../errors/customErrors";
-const { User, UserImage, SavedSearch, MenuItem } = db;
+const { MenuItem } = db;
 const router = require("express").Router();
 
 const validateMenuItem = [
@@ -24,13 +24,13 @@ const validateMenuItem = [
 ];
 
 router.get(
-  "/saved",
+  "/favorites",
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const savedMenuItems = await MenuItem.findAll();
-      return res.status(200).json(savedMenuItems);
+      const favoritesMenuItems = await MenuItem.findAll();
+      return res.status(200).json(favoritesMenuItems);
     } catch (e) {
       next(e);
     }
@@ -38,17 +38,25 @@ router.get(
 );
 
 router.post(
-  "/saved",
+  "/favorites",
   requireAuth,
   // validateMenuItem,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const { restaurantName, menuItemName, calories, carbs, protein, fat } =
-        req.body;
+      const {
+        restaurantName,
+        menuItemName,
+        imageUrl,
+        calories,
+        carbs,
+        protein,
+        fat,
+      } = req.body;
       const menuItem = await MenuItem.create({
         restaurantName,
         menuItemName,
+        imageUrl,
         calories,
         carbs,
         protein,
@@ -62,7 +70,7 @@ router.post(
 );
 
 router.delete(
-  "/saved/:menuItemId",
+  "/favorites/:menuItemId",
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
