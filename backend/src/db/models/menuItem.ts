@@ -7,7 +7,7 @@ import {
   Optional,
 } from "sequelize";
 module.exports = (sequelize: any, DataTypes: any) => {
-  class SavedSearch extends Model {
+  class MenuItem extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -17,45 +17,37 @@ module.exports = (sequelize: any, DataTypes: any) => {
       // define association here
     }
   }
-  SavedSearch.init(
+  MenuItem.init(
     {
-      name: {
+      restaurantName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      food: {
+      menuItemName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      minCalories: {
+      calories: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      maxCalories: {
+      protein: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      minProtein: {
+      carbs: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      maxProtein: {
-        type: DataTypes.STRING,
-      },
-      minCarbs: {
-        type: DataTypes.STRING,
-      },
-      maxCarbs: {
-        type: DataTypes.STRING,
-      },
-      minFat: {
-        type: DataTypes.STRING,
-      },
-      maxFat: {
+      fat: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
     },
     {
       sequelize,
-      modelName: "SavedSearch",
+      modelName: "MenuItem",
     }
   );
-  return SavedSearch;
+  return MenuItem;
 };

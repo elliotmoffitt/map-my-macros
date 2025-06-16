@@ -1,26 +1,23 @@
-
 export interface SessionInitialState {
-    user: null | IUser;
+  user: null | IUser;
 }
 
 export interface IUser {
-    id: number;
-    email: string;
-    username: string;
+  id: number;
+  email: string;
+  username: string;
 }
 
 export interface ISignUpUser {
-    email: string;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
 }
 
-
 export interface ICredentials {
-    credential?: string;
-    email?: string;
-    password: string;
-
+  credential?: string;
+  email?: string;
+  password: string;
 }
