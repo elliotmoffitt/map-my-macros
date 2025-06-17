@@ -54,10 +54,10 @@ function ProfileButton(): JSX.Element {
               <h4 className="profile-text">{user.username}</h4>
               <h4 className="profile-text">{user.email}</h4>
               <button
-                onClick={() => navigate("/")}
-                id="profile-favorites-button"
+                onClick={() => navigate("/dailyGoals")}
+                id="profile-user-profile-button"
               >
-                Favorites
+                Daily Goals
               </button>
               <button onClick={(e) => logout(e)} id="profile-log-out-button">
                 Log Out
