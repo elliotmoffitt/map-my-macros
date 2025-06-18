@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      menuItemName: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -36,6 +36,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      // DailyGoalId: {
+      //   type: Sequelize.INTEGER,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

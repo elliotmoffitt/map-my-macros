@@ -1,7 +1,7 @@
 "use strict";
 import { Model } from "sequelize";
 module.exports = (sequelize: any, DataTypes: any) => {
-  class DailyGoals extends Model {
+  class SavedSearch extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,29 +11,45 @@ module.exports = (sequelize: any, DataTypes: any) => {
       // define association here
     }
   }
-  DailyGoals.init(
+  SavedSearch.init(
     {
-      calories: {
+      name: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      protein: {
+      food: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      carbs: {
-        allowNull: false,
+      minCalories: {
         type: DataTypes.STRING,
       },
-      fat: {
-        allowNull: false,
+      maxCalories: {
+        type: DataTypes.STRING,
+      },
+      minProtein: {
+        type: DataTypes.STRING,
+      },
+      maxProtein: {
+        type: DataTypes.STRING,
+      },
+      minCarbs: {
+        type: DataTypes.STRING,
+      },
+      maxCarbs: {
+        type: DataTypes.STRING,
+      },
+      minFat: {
+        type: DataTypes.STRING,
+      },
+      maxFat: {
         type: DataTypes.STRING,
       },
     },
     {
       sequelize,
-      modelName: "DailyGoals",
+      modelName: "SavedSearch",
     }
   );
-  return DailyGoals;
+  return SavedSearch;
 };

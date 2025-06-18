@@ -1,13 +1,7 @@
 "use strict";
-import {
-  Association,
-  CreationOptional,
-  DataTypes,
-  Model,
-  Optional,
-} from "sequelize";
+import { Model } from "sequelize";
 module.exports = (sequelize: any, DataTypes: any) => {
-  class SavedSearch extends Model {
+  class MenuItem extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -17,45 +11,43 @@ module.exports = (sequelize: any, DataTypes: any) => {
       // define association here
     }
   }
-  SavedSearch.init(
+  MenuItem.init(
     {
+      restaurantName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       name: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      food: {
+      imageUrl: {
+        type: DataTypes.STRING,
+      },
+      calories: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      minCalories: {
+      protein: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      maxCalories: {
+      carbs: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      minProtein: {
+      fat: {
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      maxProtein: {
-        type: DataTypes.STRING,
-      },
-      minCarbs: {
-        type: DataTypes.STRING,
-      },
-      maxCarbs: {
-        type: DataTypes.STRING,
-      },
-      minFat: {
-        type: DataTypes.STRING,
-      },
-      maxFat: {
-        type: DataTypes.STRING,
-      },
+      // DailyGoalId: {
+      //   type: DataTypes.INTEGER,
+      // },
     },
     {
       sequelize,
-      modelName: "SavedSearch",
+      modelName: "MenuItem",
     }
   );
-  return SavedSearch;
+  return MenuItem;
 };

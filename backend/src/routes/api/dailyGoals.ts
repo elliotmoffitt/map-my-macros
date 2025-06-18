@@ -26,7 +26,9 @@ router.get(
       router.use(requireAuth);
       const dailyGoals = await DailyGoals.findAll();
       return res.status(200).json(dailyGoals);
-    } catch (e) {}
+    } catch (e) {
+      next(e);
+    }
   }
 );
 
@@ -45,7 +47,9 @@ router.post(
         fat,
       });
       return res.status(200).json(dailyGoals);
-    } catch (e) {}
+    } catch (e) {
+      next(e);
+    }
   }
 );
 
@@ -64,6 +68,8 @@ router.put(
         fat,
       });
       return res.status(200).json(dailyGoals);
-    } catch (e) {}
+    } catch (e) {
+      next(e);
+    }
   }
 );
