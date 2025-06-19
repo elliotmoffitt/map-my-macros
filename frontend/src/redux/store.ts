@@ -9,10 +9,12 @@ import sessionReducer from "./session";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import menuItemsReducer from "./menuItems";
 import savedSearchesReducer from "./savedSearches";
+import spoonacularMenuItemsReducer from "./spoonacularMenuItems";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   menuItems: menuItemsReducer,
+  spoonacularMenuItems: spoonacularMenuItemsReducer,
   savedSearches: savedSearchesReducer,
 });
 

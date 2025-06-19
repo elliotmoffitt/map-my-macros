@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Search.css";
 import { FaSearch, FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { getMenuItemsThunk } from "../../../redux/menuItems";
+import { getSpoonacularMenuItemsThunk } from "../../../redux/spoonacularMenuItems";
 import { ISearchErrors } from "../../../../types/menuItems";
 import { useNavigate } from "react-router-dom";
 import SavedSearches from "./SavedSearches";
@@ -57,7 +57,7 @@ const Search = (): JSX.Element => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const getMenuItems = await dispatch(
-      getMenuItemsThunk({
+      getSpoonacularMenuItemsThunk({
         food: food,
         minCalories: calories[0],
         maxCalories: calories[1],
@@ -76,7 +76,10 @@ const Search = (): JSX.Element => {
 
   const handleSavedSearchSelect = (selected: ISearch) => {
     if (selected) {
-      setCalories([selected["minCalories"] ?? "", selected["maxCalories"] ?? ""]);
+      setCalories([
+        selected["minCalories"] ?? "",
+        selected["maxCalories"] ?? "",
+      ]);
       setProtein([selected["minProtein"] ?? "", selected["maxProtein"] ?? ""]);
       setCarbs([selected["minCarbs"] ?? "", selected["maxCarbs"] ?? ""]);
       setFat([selected["minFat"] ?? "", selected["maxFat"] ?? ""]);
@@ -95,7 +98,10 @@ const Search = (): JSX.Element => {
       <form onSubmit={handleSubmit} id="search">
         <h3 id="search-title">Find your favorite foods</h3>
         <hr id="search-line" />
-        <SavedSearches onSavedSearchSelect={handleSavedSearchSelect} onUpdatedSearch={handleSavedSearchSelect} />
+        <SavedSearches
+          onSavedSearchSelect={handleSavedSearchSelect}
+          onUpdatedSearch={handleSavedSearchSelect}
+        />
         <div className="search-input-title-container">
           <div className="search-input-title-error-container">
             <div className="search-error-icon-message">
