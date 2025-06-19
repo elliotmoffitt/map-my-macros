@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./DailyGoals.css";
+import LoggedToday from "./LoggedToday";
 
 const DailyGoals = () => {
   const [isEditingToday, setIsEditingToday] = useState(false);
@@ -13,9 +14,9 @@ const DailyGoals = () => {
   const [carbsDaily, setCarbsDaily] = useState("");
   const [fatDaily, setFatDaily] = useState("");
   return (
-    <>
+    <div id="daily-goals">
       <h1 id="daily-goals-title">Daily Goals</h1>
-      <div id="daily-goals">
+      <div id="daily-goals-forms">
         <div className="daily-goals-form">
           <h2 className="daily-goals-form-title">Today's Progress</h2>
           <hr className="daily-goals-form-line" />
@@ -142,7 +143,8 @@ const DailyGoals = () => {
           )}
         </div>
       </div>
-    </>
+      <LoggedToday />
+    </div>
   );
 };
 

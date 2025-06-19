@@ -1,5 +1,12 @@
 #daily-goals {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#daily-goals-forms {
+  display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
@@ -16,7 +23,7 @@
   font-weight: normal;
   font-family: var(--title-font);
   font-size: 2.5rem;
-  margin: 1rem;
+  margin: 2rem;
 }
 
 .daily-goals-form-title {

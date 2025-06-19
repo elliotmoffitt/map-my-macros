@@ -8,6 +8,7 @@ const { Op } = require("sequelize");
 import db from "../../db/models";
 import { errors } from "../../typings/errors";
 import { NoResourceError } from "../../errors/customErrors";
+import { resourceLimits } from "worker_threads";
 const { MenuItem } = db;
 const router = require("express").Router();
 
@@ -24,13 +25,35 @@ const validateMenuItem = [
 ];
 
 router.get(
-  "/favorites",
+  "/",
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const favoritesMenuItems = await MenuItem.findAll();
-      return res.status(200).json(favoritesMenuItems);
+      const menuItems = await MenuItem.findAll();
+      return res.status(200).json(menuItems);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+router.get(
+  "/today",
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      router.use(requireAuth);
+      const startToday = new Date();
+      startToday.setHours(0, 0, 0, 0);
+      const endToday = new Date();
+      endToday.setHours(23, 59, 59, 999);
+      const menuItems = await MenuItem.findAll({
+        where: {
+          createdAt: { [Op.between]: [startToday, endToday] },
+        },
+      });
+      return res.status(200).json(menuItems);
     } catch (e) {
       next(e);
     }
@@ -38,24 +61,16 @@ router.get(
 );
 
 router.post(
-  "/favorites",
+  "/",
   requireAuth,
-  // validateMenuItem,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const {
-        restaurantName,
-        menuItemName,
-        imageUrl,
-        calories,
-        carbs,
-        protein,
-        fat,
-      } = req.body;
+      const { restaurantName, name, imageUrl, calories, carbs, protein, fat } =
+        req.body;
       const menuItem = await MenuItem.create({
         restaurantName,
-        menuItemName,
+        name,
         imageUrl,
         calories,
         carbs,
@@ -69,8 +84,39 @@ router.post(
   }
 );
 
+router.put(
+  "/:menuItemId",
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      router.use(requireAuth);
+      const { restaurantName, name, imageUrl, calories, carbs, protein, fat } =
+        req.body;
+      // const { menuItemId } = req.params;
+      const menuItem = await MenuItem.findByPk(req.params.menuItemId);
+      if (!menuItem) {
+        return res.status(404).json({ error: "Saved search not found" });
+      }
+      await menuItem.update({
+        restaurantName,
+        name,
+        imageUrl,
+        calories,
+        carbs,
+        protein,
+        fat,
+      });
+      return res.status(200).json(menuItem);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+export = router;
+
 router.delete(
-  "/favorites/:menuItemId",
+  "/:menuItemId",
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -88,4 +134,69 @@ router.delete(
   }
 );
 
-export = router;
+// router.get(
+//   "/favorites",
+//   requireAuth,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       router.use(requireAuth);
+//       const favoritesMenuItems = await MenuItem.findAll();
+//       return res.status(200).json(favoritesMenuItems);
+//     } catch (e) {
+//       next(e);
+//     }
+//   }
+// );
+
+// router.post(
+//   "/favorites",
+//   requireAuth,
+//   // validateMenuItem,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       router.use(requireAuth);
+//       const {
+//         restaurantName,
+//         menuItemName,
+//         imageUrl,
+//         calories,
+//         carbs,
+//         protein,
+//         fat,
+//       } = req.body;
+//       const menuItem = await MenuItem.create({
+//         restaurantName,
+//         menuItemName,
+//         imageUrl,
+//         calories,
+//         carbs,
+//         protein,
+//         fat,
+//       });
+//       return res.status(200).json(menuItem);
+//     } catch (e) {
+//       next(e);
+//     }
+//   }
+// );
+
+// router.delete(
+//   "/favorites/:menuItemId",
+//   requireAuth,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const { menuItemId } = req.params;
+//       const menuItem = await MenuItem.findByPk(menuItemId);
+
+//       if (!menuItem) {
+//         return res.status(404).json({ message: "Menu item couldn't be found" });
+//       }
+//       await menuItem.destroy();
+//       return res.status(200).json({ message: "Successfully deleted" });
+//     } catch (e) {
+//       next(e);
+//     }
+//   }
+// );
+
+// export = router;

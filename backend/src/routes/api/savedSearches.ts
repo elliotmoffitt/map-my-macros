@@ -81,6 +81,7 @@ router.put(
   validateSavedSearch,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      router.use(requireAuth);
       const {
         name,
         food,
