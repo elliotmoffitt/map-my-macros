@@ -8,7 +8,7 @@ const getMenuItems = (menuItems: any) => ({
   payload: menuItems,
 });
 
-const getMenuItemsThunk = () => async (dispatch: any) => {
+export const getMenuItemsThunk = () => async (dispatch: any) => {
   try {
     const res = await fetch("/api/menuItems");
     if (res.ok) {
@@ -21,7 +21,8 @@ const getMenuItemsThunk = () => async (dispatch: any) => {
   }
 };
 
-const getMenuItemsTodayThunk = () => async (dispatch: any) => {
+export const getMenuItemsTodayThunk = () => async (dispatch: any) => {
+  console.log("BLEAGHHHHHH");
   try {
     const res = await fetch("/api/menuItems/today");
     if (res.ok) {
@@ -39,11 +40,12 @@ const initialState: any = { byId: {}, allMenuItems: [] };
 const menuItemsReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_MENU_ITEMS:
-      const allMenuItems = action.payloaoad;
+      const allMenuItems = action.payload;
       const byId: Record<number, any> = {};
       for (const menuItem of allMenuItems) {
-        byId[menuItem] = menuItem;
+        byId[menuItem.id] = menuItem;
       }
+      return { ...state, allMenuItems, byId };
     default:
       return state;
   }
