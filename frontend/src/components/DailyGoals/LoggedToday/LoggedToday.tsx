@@ -3,12 +3,13 @@ import { useAppSelector } from "../../../redux/store";
 import "./LoggedToday.css";
 import { useDispatch } from "react-redux";
 import { getMenuItemsTodayThunk } from "../../../redux/menuItems";
+import MenuItemCard from "../../MenuItems/MenuItemCard";
+import { IMenuItem } from "../../../../types/menuItems";
 
-const LoggedToday = () => {
-  const [isLoaded, setIsLoaded] = useState(true);
+const LoggedToday = (): JSX.Element => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const menuItems = useAppSelector((state) => state.menuItems.allMenuItems);
   const dispatch = useDispatch();
-  console.log(menuItems);
 
   useEffect(() => {
     const getMenuItems = async () => {
@@ -26,7 +27,11 @@ const LoggedToday = () => {
         <h2 id="logged-today-title">Food Logged Today</h2>
         <hr id="logged-today-line" />
         <div id="logged-today-menu-items">
-          {/* {menuItems.map((menuItem, i) => {})} */}
+          {menuItems.map((menuItem: IMenuItem, i: number) => {
+            return (
+              <MenuItemCard menuItem={menuItem} key={`${menuItem.id}-${i}`} />
+            );
+          })}
         </div>
       </div>
     );

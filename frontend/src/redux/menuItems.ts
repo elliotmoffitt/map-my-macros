@@ -22,7 +22,6 @@ export const getMenuItemsThunk = () => async (dispatch: any) => {
 };
 
 export const getMenuItemsTodayThunk = () => async (dispatch: any) => {
-  console.log("BLEAGHHHHHH");
   try {
     const res = await fetch("/api/menuItems/today");
     if (res.ok) {

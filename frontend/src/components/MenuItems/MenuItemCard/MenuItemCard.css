@@ -1,108 +1,143 @@
 .menu-item-card {
-    display: flex;
-    flex-direction: column;
-    width: 18rem;
-    text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  width: 18rem;
+  text-decoration: none;
 }
 
 .menu-item-nutrition-container {
-    display: flex;
-    flex-direction: column;
-    gap: .2rem;
-    margin-top: .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.8rem;
+}
+
+.menu-item-nutrition-input {
+  background-color: #1e1e1e;
+  border: 0.1rem solid white;
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+  height: 1.4rem;
+  width: 8rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: var(--primary-font);
 }
 
 .menu-item-nutrition-icon {
-    font-size: 1.2rem;
-    color: var(--secondary-color)
+  font-size: 1.2rem;
+  color: var(--secondary-color);
 }
 
 .menu-item-nutrition {
-    display: flex;
-    gap: .5rem;
-    font-size: 1.1rem;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .menu-item-restaurant {
-    font-weight: normal;
-    font-family: var(--title-font);
-    font-size: 1.8rem;
-    margin-bottom: -1rem;
+  font-weight: normal;
+  font-family: var(--title-font);
+  font-size: 1.8rem;
+  margin-bottom: -1rem;
 }
 
 .menu-item-name {
-    font-size: 1.1rem;
-    height: 2rem;
+  font-size: 1.1rem;
+  height: 2rem;
 }
 
 .menu-item-card-image {
-    height: 14rem;
-    width: 18rem;
-    object-fit: cover;
+  height: 14rem;
+  width: 18rem;
+  object-fit: cover;
 }
 
 .menu-item-card-name-review {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .menu-item-card-text {
-    font-size: .9rem;
-    margin: .5rem 0;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
 }
 
 .menu-item-card-save-directions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .menu-item-card-save {
-    transition: background-color .2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    height: 2rem;
-    width: 8rem;
-    border: 0;
-    border-radius: 10rem;
-    font-family: var(--primary-font);
-    font-size: 1.2rem;
-    background-color: var(--secondary-color);
-    color: white;
-    cursor: pointer;
-    margin-top: .8rem;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  width: 8rem;
+  border: 0;
+  border-radius: 10rem;
+  font-family: var(--primary-font);
+  font-size: 1.2rem;
+  background-color: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+  margin-top: 0.8rem;
 }
 
 .menu-item-card-save:hover {
-    transition: background-color .2s ease;
-    background-color: var(--secondary-color-hover);
+  transition: background-color 0.2s ease;
+  background-color: var(--secondary-color-hover);
+}
+
+.menu-item-card-edit {
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  width: 8rem;
+  border: 0;
+  border-radius: 10rem;
+  font-family: var(--primary-font);
+  font-size: 1.2rem;
+  background-color: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+.menu-item-card-save:hover {
+  transition: background-color 0.2s ease;
+  background-color: var(--secondary-color-hover);
 }
 
 .menu-item-card-icon {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .menu-item-card-directions {
-    transition: background-color .2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    height: 2rem;
-    width: 10rem;
-    border: none;
-    border-radius: 10rem;
-    font-family: var(--primary-font);
-    font-size: 1.2rem;
-    background-color: var(--primary-color);
-    color: white;
-    cursor: pointer;
-    margin-top: .8rem;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  width: 10rem;
+  border: none;
+  border-radius: 10rem;
+  font-family: var(--primary-font);
+  font-size: 1.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  margin-top: 0.8rem;
 }
 
 .menu-item-card-directions:hover {
-    transition: background-color .2s ease;
-    background-color: var(--primary-color-hover)
+  transition: background-color 0.2s ease;
+  background-color: var(--primary-color-hover);
 }

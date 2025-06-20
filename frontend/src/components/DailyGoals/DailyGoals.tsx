@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./DailyGoals.css";
 import LoggedToday from "./LoggedToday";
+import { FaCheck, FaPencilAlt } from "react-icons/fa";
 
-const DailyGoals = () => {
+const DailyGoals = (): JSX.Element => {
   const [isEditingToday, setIsEditingToday] = useState(false);
   const [isEditingDaily, setIsEditingDaily] = useState(false);
   const [caloriesToday, setCaloriesToday] = useState("");
@@ -69,6 +70,7 @@ const DailyGoals = () => {
               onClick={() => setIsEditingToday(false)}
             >
               Save
+              <FaCheck />
             </button>
           ) : (
             <button
@@ -76,6 +78,7 @@ const DailyGoals = () => {
               onClick={() => setIsEditingToday(true)}
             >
               Edit
+              <FaPencilAlt />
             </button>
           )}
         </div>
@@ -139,6 +142,7 @@ const DailyGoals = () => {
               onClick={() => setIsEditingDaily(true)}
             >
               Edit
+              <FaPencilAlt />
             </button>
           )}
         </div>
