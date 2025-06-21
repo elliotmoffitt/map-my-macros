@@ -27,11 +27,11 @@ const LoggedToday = (): JSX.Element => {
         <h2 id="logged-today-title">Food Logged Today</h2>
         <hr id="logged-today-line" />
         <div id="logged-today-menu-items">
-          {menuItems.map((menuItem: IMenuItem, i: number) => {
+          {menuItems.length ? menuItems.map((menuItem: IMenuItem, i: number) => {
             return (
               <MenuItemCard menuItem={menuItem} key={`${menuItem.id}-${i}`} />
             );
-          })}
+          }) : <h4 style={{textAlign: 'center'}}>Nothing logged yet...</h4>}
         </div>
       </div>
     );

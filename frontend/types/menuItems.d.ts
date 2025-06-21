@@ -12,6 +12,7 @@ export interface IMenuItem {
   name?: string;
   title?: string;
   image?: string;
+  imageUrl?: string;
   calories: string;
   protein: string;
   carbs: string;

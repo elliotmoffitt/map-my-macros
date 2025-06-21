@@ -52,13 +52,15 @@ export const createMenuItemThunk =
   (menuItem: IMenuItem): any =>
   async (dispatch: any) => {
     try {
-      const { restaurantName, name, calories, protein, carbs, fat } = menuItem;
+      const { restaurantName, name, imageUrl, calories, protein, carbs, fat } =
+        menuItem;
       const res = await csrfFetch(`/api/menuItems`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           restaurantName,
           name,
+          imageUrl,
           calories,
           protein,
           carbs,

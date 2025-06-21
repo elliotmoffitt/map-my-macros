@@ -1,6 +1,8 @@
 import "./MenuItems.css";
 import { useAppSelector } from "../../redux/store";
 import MenuItemCard from "./MenuItemCard";
+import { IMenuItem } from "../../../types/menuItems";
+import { useState } from "react";
 
 const MenuItems = (): JSX.Element => {
   const menuItems = useAppSelector((state) => state.menuItems.allMenuItems);
@@ -11,9 +13,11 @@ const MenuItems = (): JSX.Element => {
       <hr id="menu-items-line"></hr>
       <div id="menu-items-results">
         {menuItems.length
-          ? menuItems.map((menuItem: any, i: number) => {
-              return (
+          ? menuItems.map((menuItem: IMenuItem, i: number) => {
+              return menuItem.nutrition ? (
                 <MenuItemCard menuItem={menuItem} key={`${menuItem.id}-${i}`} />
+              ) : (
+                ""
               );
             })
           : ""}

@@ -5,7 +5,6 @@ import {
   FaDumbbell,
   FaBreadSlice,
   FaTint,
-  FaBookmark,
   FaLocationArrow,
   FaPencilAlt,
   FaCheck,
@@ -18,18 +17,27 @@ import {
 import { useDispatch } from "react-redux";
 
 const MenuItemCard = (menuItem: any) => {
+  const round = (macro: number | string | null | undefined) => {
+    const value = Number(macro);
+    return isNaN(value) ? "0" : Math.ceil(value).toString();
+  };
+
   const [isEditing, setIsEditing] = useState(false);
-  const [isSpoonacular, setIsSpoonacular] = useState(false);
+  const [isSpoonacular, setIsSpoonacular] = useState(
+    menuItem.menuItem.nutrition ? true : false
+  );
   const [calories, setCalories] = useState(
     !isSpoonacular ? menuItem.menuItem.calories : ""
   );
   const [protein, setProtein] = useState(
-    !isSpoonacular ? menuItem.menuItem.protein : ""
+    !isSpoonacular ? round(menuItem.menuItem.protein) : ""
   );
   const [carbs, setCarbs] = useState(
-    !isSpoonacular ? menuItem.menuItem.carbs : ""
+    !isSpoonacular ? round(menuItem.menuItem.carbs) : ""
   );
-  const [fat, setFat] = useState(!isSpoonacular ? menuItem.menuItem.fat : "");
+  const [fat, setFat] = useState(
+    !isSpoonacular ? round(menuItem.menuItem.fat) : ""
+  );
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
 
@@ -38,11 +46,6 @@ const MenuItemCard = (menuItem: any) => {
     else setIsSpoonacular(false);
   });
 
-  const round = (macro: number | string) => {
-    if (typeof macro !== "number") {
-      return Math.ceil(Number(macro.slice(0, -1))).toString();
-    } else return Math.ceil(Number(macro)).toString();
-  };
   const result = menuItem.menuItem;
 
   const handleAddMenuItem = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,6 +55,7 @@ const MenuItemCard = (menuItem: any) => {
       createMenuItemThunk({
         restaurantName: result.restaurantChain,
         name: result.title,
+        imageUrl: result.image,
         calories: result.nutrition.calories,
         protein: result.nutrition.protein,
         carbs: result.nutrition.carbs,
@@ -69,9 +73,9 @@ const MenuItemCard = (menuItem: any) => {
         restaurantName: result.restaurantName,
         name: result.name,
         calories: calories ? calories : 0,
-        protein: protein ? protein : 0,
-        carbs: carbs ? carbs : 0,
-        fat: fat ? fat : 0,
+        protein: protein ? protein : "0",
+        carbs: carbs ? carbs : "0",
+        fat: fat ? fat : "0",
       })
     );
     setCalories(updatedMenuItem.calories);
@@ -88,8 +92,11 @@ const MenuItemCard = (menuItem: any) => {
       <p className="menu-item-name">
         {isSpoonacular ? result.title : result.name}
       </p>
-      {result.image ? (
-        <img src={result.image} className="menu-item-card-image" />
+      {result.image || result.imageUrl ? (
+        <img
+          src={result.image || result.imageUrl}
+          className="menu-item-card-image"
+        />
       ) : (
         "No Preview Image"
       )}
@@ -129,7 +136,7 @@ const MenuItemCard = (menuItem: any) => {
               className="menu-item-nutrition-input"
               placeholder="Protein"
               type="number"
-              onChange={(e) => setProtein(e.target.value)}
+              onChange={(e) => setProtein(round(e.target.value))}
               min={0}
             ></input>
           </span>
