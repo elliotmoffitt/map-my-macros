@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MenuItemCard.css";
-// import {IMenuItem}
 import {
   FaFire,
   FaDumbbell,
@@ -11,14 +10,23 @@ import {
   FaPencilAlt,
   FaCheck,
 } from "react-icons/fa";
+import { updateMenuItemThunk } from "../../../redux/menuItems";
+import { useDispatch } from "react-redux";
 
 const MenuItemCard = (menuItem: any) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSpoonacular, setIsSpoonacular] = useState(false);
-  const [calories, setCalories] = useState("");
-  const [protein, setProtein] = useState("");
-  const [carbs, setCarbs] = useState("");
-  const [fat, setFat] = useState("");
+  const [calories, setCalories] = useState(
+    !isSpoonacular ? menuItem.menuItem.calories : ""
+  );
+  const [protein, setProtein] = useState(
+    !isSpoonacular ? menuItem.menuItem.protein : ""
+  );
+  const [carbs, setCarbs] = useState(
+    !isSpoonacular ? menuItem.menuItem.carbs : ""
+  );
+  const [fat, setFat] = useState(!isSpoonacular ? menuItem.menuItem.fat : "");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (menuItem.menuItem.nutrition) setIsSpoonacular(true);
@@ -31,6 +39,27 @@ const MenuItemCard = (menuItem: any) => {
     } else return Math.ceil(Number(macro)).toString();
   };
   const result = menuItem.menuItem;
+
+  const handleLoggedSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEditing(false);
+    const updatedMenuItem = await dispatch(
+      updateMenuItemThunk({
+        id: result.id,
+        restaurantName: result.restaurantName,
+        name: result.name,
+        calories: calories ? calories : 0,
+        protein: protein ? protein : 0,
+        carbs: carbs ? carbs : 0,
+        fat: fat ? fat : 0,
+      })
+    );
+    setCalories(updatedMenuItem.calories);
+    setProtein(updatedMenuItem.protein);
+    setCarbs(updatedMenuItem.carbs);
+    setFat(updatedMenuItem.fat);
+  };
+
   return (
     <div className="menu-item-card">
       <h2 className="menu-item-restaurant">
@@ -52,10 +81,13 @@ const MenuItemCard = (menuItem: any) => {
               <FaFire />
             </span>
             <input
-              // value={result.calories}
+              value={calories}
               className="menu-item-nutrition-input"
               placeholder="Calories"
               type="number"
+              onChange={(e) => setCalories(e.target.value)}
+              min={0}
+              step={10}
             ></input>
           </span>
         ) : (
@@ -63,32 +95,77 @@ const MenuItemCard = (menuItem: any) => {
             <span className="menu-item-nutrition-icon">
               <FaFire />
             </span>
-            {isSpoonacular ? round(result.nutrition.calories) : result.calories}{" "}
+            {isSpoonacular ? round(result.nutrition.calories) : calories}{" "}
             Calories
           </span>
         )}
-
-        <span className="menu-item-nutrition">
-          <span className="menu-item-nutrition-icon">
-            <FaDumbbell />
+        {isEditing && !isSpoonacular ? (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaDumbbell />
+            </span>
+            <input
+              value={protein}
+              className="menu-item-nutrition-input"
+              placeholder="Protein"
+              type="number"
+              onChange={(e) => setProtein(e.target.value)}
+              min={0}
+            ></input>
           </span>
-          {isSpoonacular ? round(result.nutrition.protein) : result.protein}g
-          Protein
-        </span>
-        <span className="menu-item-nutrition">
-          <span className="menu-item-nutrition-icon">
-            <FaBreadSlice />
+        ) : (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaDumbbell />
+            </span>
+            {isSpoonacular ? round(result.nutrition.protein) : protein}g Protein
           </span>
-          {isSpoonacular ? round(result.nutrition.carbs) : result.carbs}g Carbs
-        </span>
-        <span className="menu-item-nutrition">
-          <span className="menu-item-nutrition-icon">
-            <FaTint />
+        )}
+        {isEditing && !isSpoonacular ? (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaBreadSlice />
+            </span>
+            <input
+              value={carbs}
+              className="menu-item-nutrition-input"
+              placeholder="Carbs"
+              type="number"
+              onChange={(e) => setCarbs(e.target.value)}
+              min={0}
+            ></input>
           </span>
-          {isSpoonacular ? round(result.nutrition.fat) : result.fat}g Fat
-        </span>
+        ) : (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaBreadSlice />
+            </span>
+            {isSpoonacular ? round(result.nutrition.carbs) : carbs}g Carbs
+          </span>
+        )}
+        {isEditing && !isSpoonacular ? (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaTint />
+            </span>
+            <input
+              value={fat}
+              className="menu-item-nutrition-input"
+              placeholder="Fat"
+              type="number"
+              onChange={(e) => setFat(e.target.value)}
+              min={0}
+            ></input>
+          </span>
+        ) : (
+          <span className="menu-item-nutrition">
+            <span className="menu-item-nutrition-icon">
+              <FaTint />
+            </span>
+            {isSpoonacular ? round(result.nutrition.fat) : fat}g Fat
+          </span>
+        )}
       </div>
-
       {isSpoonacular ? (
         <div className="menu-item-card-save-directions">
           <button className="menu-item-card-save">
@@ -116,7 +193,7 @@ const MenuItemCard = (menuItem: any) => {
           {isEditing ? (
             <button
               className="daily-goals-save-button"
-              onClick={() => setIsEditing(false)}
+              onClick={(e) => handleLoggedSave(e)}
             >
               Save
               <FaCheck />

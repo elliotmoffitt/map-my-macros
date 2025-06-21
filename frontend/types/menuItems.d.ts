@@ -11,7 +11,7 @@ export interface IMenuItem {
   restaurantChain?: string;
   name?: string;
   title?: string;
-  image: string;
+  image?: string;
   calories: string;
   protein: string;
   carbs: string;
