@@ -11,7 +11,7 @@ const getMenuItems = (menuItems: any) => ({
   payload: menuItems,
 });
 
-const getSpoonacularMenuItem = async (menuItems: any) => {
+const getSpoonacularMenuItemThunk = async (menuItems: any) => {
   const menuItemsNutrition = [];
   for (const menuItem of menuItems) {
     const url = new URL(`${SPOONACULAR_URL}${menuItem.id}`);
@@ -46,7 +46,7 @@ export const getSpoonacularMenuItemsThunk =
       const nutritionParams: INutritionParams = {
         apiKey: SPOONACULAR_API_KEY,
         query: food,
-        number: "5",
+        number: "1",
         minCalories: minCalories,
         maxCalories: maxCalories,
         minProtein: minProtein,
@@ -68,7 +68,9 @@ export const getSpoonacularMenuItemsThunk =
         if (data.errors) {
           throw res;
         }
-        const dataWithNutrition = await getSpoonacularMenuItem(data.menuItems);
+        const dataWithNutrition = await getSpoonacularMenuItemThunk(
+          data.menuItems
+        );
         dispatch(getMenuItems(dataWithNutrition));
         return dataWithNutrition;
       } else {

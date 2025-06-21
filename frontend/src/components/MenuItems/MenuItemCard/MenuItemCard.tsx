@@ -9,8 +9,12 @@ import {
   FaLocationArrow,
   FaPencilAlt,
   FaCheck,
+  FaPlus,
 } from "react-icons/fa";
-import { updateMenuItemThunk } from "../../../redux/menuItems";
+import {
+  createMenuItemThunk,
+  updateMenuItemThunk,
+} from "../../../redux/menuItems";
 import { useDispatch } from "react-redux";
 
 const MenuItemCard = (menuItem: any) => {
@@ -26,6 +30,7 @@ const MenuItemCard = (menuItem: any) => {
     !isSpoonacular ? menuItem.menuItem.carbs : ""
   );
   const [fat, setFat] = useState(!isSpoonacular ? menuItem.menuItem.fat : "");
+  const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +44,21 @@ const MenuItemCard = (menuItem: any) => {
     } else return Math.ceil(Number(macro)).toString();
   };
   const result = menuItem.menuItem;
+
+  const handleAddMenuItem = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsAdded(true);
+    await dispatch(
+      createMenuItemThunk({
+        restaurantName: result.restaurantChain,
+        name: result.title,
+        calories: result.nutrition.calories,
+        protein: result.nutrition.protein,
+        carbs: result.nutrition.carbs,
+        fat: result.nutrition.fat,
+      })
+    );
+  };
 
   const handleLoggedSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -168,12 +188,24 @@ const MenuItemCard = (menuItem: any) => {
       </div>
       {isSpoonacular ? (
         <div className="menu-item-card-save-directions">
-          <button className="menu-item-card-save">
-            Save
-            <p className="menu-item-card-icon">
-              <FaBookmark />
-            </p>
-          </button>
+          {isAdded ? (
+            <button className="menu-item-card-added" disabled>
+              Added
+              <p className="menu-item-card-icon">
+                <FaCheck />
+              </p>
+            </button>
+          ) : (
+            <button
+              className="menu-item-card-add"
+              onClick={(e) => handleAddMenuItem(e)}
+            >
+              Add
+              <p className="menu-item-card-icon">
+                <FaPlus />
+              </p>
+            </button>
+          )}
           <button
             className="menu-item-card-directions"
             onClick={() =>

@@ -6,7 +6,7 @@ export interface ISearchErrors {
 }
 
 export interface IMenuItem {
-  id: number;
+  id?: number;
   restaurantName?: string;
   restaurantChain?: string;
   name?: string;

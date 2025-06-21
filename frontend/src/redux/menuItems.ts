@@ -5,6 +5,7 @@ import { ISearch, INutritionParams } from "./types/search";
 
 const GET_MENU_ITEMS = "menuItems/GET_MENU_ITEMS";
 const UPDATE_MENU_ITEM = "menuItem/UPDATE_MENU_ITEMS";
+const CREATE_MENU_ITEM = "menuItem/CREATE_MENU_ITEMS";
 
 const getMenuItems = (menuItems: IMenuItem[]) => ({
   type: GET_MENU_ITEMS,
@@ -13,6 +14,11 @@ const getMenuItems = (menuItems: IMenuItem[]) => ({
 
 const updateMenuItem = (menuItem: IMenuItem) => ({
   type: UPDATE_MENU_ITEM,
+  payload: menuItem,
+});
+
+const createMenuItem = (menuItem: IMenuItem) => ({
+  type: CREATE_MENU_ITEM,
   payload: menuItem,
 });
 
@@ -41,6 +47,33 @@ export const getMenuItemsTodayThunk = (): any => async (dispatch: any) => {
     console.log(e);
   }
 };
+
+export const createMenuItemThunk =
+  (menuItem: IMenuItem): any =>
+  async (dispatch: any) => {
+    try {
+      const { restaurantName, name, calories, protein, carbs, fat } = menuItem;
+      const res = await csrfFetch(`/api/menuItems`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          restaurantName,
+          name,
+          calories,
+          protein,
+          carbs,
+          fat,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        dispatch(createMenuItem(data));
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
 export const updateMenuItemThunk =
   (menuItem: IMenuItem): any =>
@@ -81,6 +114,15 @@ const menuItemsReducer = (state = initialState, action: any) => {
         byId[menuItem.id] = menuItem;
       }
       return { ...state, allMenuItems, byId };
+    case CREATE_MENU_ITEM:
+      return {
+        ...state,
+        allMenuItems: [...state.allMenuItems, action.payload],
+        byId: {
+          ...state.byId,
+          [action.payload.id]: action.payload,
+        },
+      };
     case UPDATE_MENU_ITEM: {
       const updatedMenuItem = action.payload;
       const newAllMenuItems = state.menuItems?.map((menuItem: IMenuItem) =>
