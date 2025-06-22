@@ -9,9 +9,11 @@ import {
   FaPencilAlt,
   FaCheck,
   FaPlus,
+  FaTrash,
 } from "react-icons/fa";
 import {
   createMenuItemThunk,
+  deleteMenuItemThunk,
   updateMenuItemThunk,
 } from "../../../redux/menuItems";
 import { useDispatch } from "react-redux";
@@ -82,6 +84,13 @@ const MenuItemCard = (menuItem: any) => {
     setProtein(updatedMenuItem.protein);
     setCarbs(updatedMenuItem.carbs);
     setFat(updatedMenuItem.fat);
+  };
+
+  const handleDeleteMenuItem = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    await dispatch(deleteMenuItemThunk(result.id));
   };
 
   return (
@@ -238,13 +247,22 @@ const MenuItemCard = (menuItem: any) => {
               <FaCheck />
             </button>
           ) : (
-            <button
-              className="daily-goals-edit-button"
-              onClick={() => setIsEditing(true)}
-            >
-              Edit
-              <FaPencilAlt />
-            </button>
+            <div className="menu-item-card-edit-delete">
+              <button
+                className="daily-goals-edit-button"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit
+                <FaPencilAlt />
+              </button>
+              <button
+                className="daily-goals-delete-button"
+                onClick={(e) => handleDeleteMenuItem(e)}
+              >
+                Delete
+                <FaTrash />
+              </button>
+            </div>
           )}
         </div>
       )}

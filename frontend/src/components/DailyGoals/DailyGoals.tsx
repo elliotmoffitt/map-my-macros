@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./DailyGoals.css";
 import LoggedToday from "./LoggedToday";
-import { FaCheck, FaPencilAlt } from "react-icons/fa";
+import { FaBookmark, FaCheck, FaPencilAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import {
+  createDailyGoalThunk,
+  getDailyGoalsThunk,
+} from "../../redux/dailyGoals";
 
 const DailyGoals = (): JSX.Element => {
   const [isEditingToday, setIsEditingToday] = useState(false);
@@ -14,6 +19,21 @@ const DailyGoals = (): JSX.Element => {
   const [proteinDaily, setProteinDaily] = useState("");
   const [carbsDaily, setCarbsDaily] = useState("");
   const [fatDaily, setFatDaily] = useState("");
+  const dispatch = useDispatch();
+
+  const handleSaveToday = () => {};
+  const handleSaveDaily = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await dispatch(
+      createDailyGoalThunk({
+        caloriesDaily: caloriesDaily,
+        proteinDaily: proteinDaily,
+        carbsDaily: carbsDaily,
+        fatDaily: fatDaily,
+      })
+    );
+  };
+
   return (
     <div id="daily-goals">
       <h1 id="daily-goals-title">Daily Goals</h1>
@@ -67,7 +87,7 @@ const DailyGoals = (): JSX.Element => {
           {isEditingToday ? (
             <button
               className="daily-goals-save-button"
-              onClick={() => setIsEditingToday(false)}
+              onClick={(e) => handleSaveToday(e)}
             >
               Save
               <FaCheck />
@@ -132,9 +152,10 @@ const DailyGoals = (): JSX.Element => {
           {isEditingDaily ? (
             <button
               className="daily-goals-save-button"
-              onClick={() => setIsEditingDaily(false)}
+              onClick={(e) => handleSaveDaily(e)}
             >
               Save
+              <FaCheck />
             </button>
           ) : (
             <button

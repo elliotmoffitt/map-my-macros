@@ -9,19 +9,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      caloriesGoal: {
+      caloriesDaily: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      proteinGoal: {
+      proteinDaily: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      carbsGoal: {
+      carbsDaily: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      fatGoal: {
+      fatDaily: {
         allowNull: false,
         type: Sequelize.STRING,
       },

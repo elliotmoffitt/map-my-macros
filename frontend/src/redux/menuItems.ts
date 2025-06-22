@@ -4,12 +4,18 @@ import { IActionCreator } from "./types/redux";
 import { ISearch, INutritionParams } from "./types/search";
 
 const GET_MENU_ITEMS = "menuItems/GET_MENU_ITEMS";
-const UPDATE_MENU_ITEM = "menuItem/UPDATE_MENU_ITEMS";
 const CREATE_MENU_ITEM = "menuItem/CREATE_MENU_ITEMS";
+const UPDATE_MENU_ITEM = "menuItem/UPDATE_MENU_ITEMS";
+const DELETE_MENU_ITEM = "menuItem/DELETE_MENU_ITEMS";
 
 const getMenuItems = (menuItems: IMenuItem[]) => ({
   type: GET_MENU_ITEMS,
   payload: menuItems,
+});
+
+const createMenuItem = (menuItem: IMenuItem) => ({
+  type: CREATE_MENU_ITEM,
+  payload: menuItem,
 });
 
 const updateMenuItem = (menuItem: IMenuItem) => ({
@@ -17,9 +23,9 @@ const updateMenuItem = (menuItem: IMenuItem) => ({
   payload: menuItem,
 });
 
-const createMenuItem = (menuItem: IMenuItem) => ({
-  type: CREATE_MENU_ITEM,
-  payload: menuItem,
+const deleteMenuItem = (menuItemId: number) => ({
+  type: DELETE_MENU_ITEM,
+  payload: menuItemId,
 });
 
 export const getMenuItemsThunk = (): any => async (dispatch: any) => {
@@ -105,6 +111,22 @@ export const updateMenuItemThunk =
     }
   };
 
+export const deleteMenuItemThunk =
+  (menuItemId: number): any =>
+  async (dispatch: any) => {
+    try {
+      const res = await csrfFetch(`/api/menuItems/${menuItemId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (res.ok) {
+        dispatch(deleteMenuItem(menuItemId));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
 const initialState: any = { byId: {}, allMenuItems: [] };
 
 const menuItemsReducer = (state = initialState, action: any) => {
@@ -137,6 +159,18 @@ const menuItemsReducer = (state = initialState, action: any) => {
           ...state.byId,
           [updatedMenuItem.id]: updatedMenuItem,
         },
+      };
+    }
+    case DELETE_MENU_ITEM: {
+      const idToDelete = action.payload;
+      const newById = { ...state.byId };
+      delete newById[idToDelete];
+      return {
+        ...state,
+        allMenuItems: state.allMenuItems.filter(
+          (menuItem: IMenuItem) => menuItem.id !== idToDelete
+        ),
+        byId: newById,
       };
     }
     default:

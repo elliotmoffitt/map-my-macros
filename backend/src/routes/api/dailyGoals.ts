@@ -12,10 +12,10 @@ const { DailyGoals } = db;
 const router = require("express").Router();
 
 const validateDailyGoals = [
-  check("calories").notEmpty.withMessage("Calories is required"),
-  check("protein").notEmpty.withMessage("Protein is required"),
-  check("carbs").notEmpty.withMessage("Carbs is required"),
-  check("fat").notEmpty.withMessage("Fat is required"),
+  check("caloriesDaily").notEmpty.withMessage("Calories is required"),
+  check("proteinDaily").notEmpty.withMessage("Protein is required"),
+  check("carbsDaily").notEmpty.withMessage("Carbs is required"),
+  check("fatDaily").notEmpty.withMessage("Fat is required"),
 ];
 
 router.get(
@@ -39,12 +39,12 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const { calories, protein, carbs, fat } = req.body;
+      const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
       const dailyGoals = await DailyGoals.create({
-        calories,
-        protein,
-        carbs,
-        fat,
+        caloriesDaily,
+        proteinDaily,
+        carbsDaily,
+        fatDaily,
       });
       return res.status(200).json(dailyGoals);
     } catch (e) {
@@ -73,3 +73,5 @@ router.put(
     }
   }
 );
+
+export = router;

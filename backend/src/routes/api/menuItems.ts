@@ -113,8 +113,6 @@ router.put(
   }
 );
 
-export = router;
-
 router.delete(
   "/:menuItemId",
   requireAuth,
@@ -133,6 +131,8 @@ router.delete(
     }
   }
 );
+
+export = router;
 
 // router.get(
 //   "/favorites",

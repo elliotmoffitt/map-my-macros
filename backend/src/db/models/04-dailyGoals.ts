@@ -13,14 +13,34 @@ module.exports = (sequelize: any, DataTypes: any) => {
   }
   DailyGoals.init(
     {
-      caloriesGoal: DataTypes.STRING,
-      proteinGoal: DataTypes.STRING,
-      carbsGoal: DataTypes.STRING,
-      fatGoal: DataTypes.STRING,
-      caloriesToday: DataTypes.STRING,
-      proteinToday: DataTypes.STRING,
-      carbsToday: DataTypes.STRING,
-      fatToday: DataTypes.STRING,
+      caloriesDaily : {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      proteinDaily : {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      carbsDaily : {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      fatDaily : {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      caloriesToday: {
+        type: DataTypes.STRING,
+      },
+      proteinToday: {
+        type: DataTypes.STRING,
+      },
+      carbsToday: {
+        type: DataTypes.STRING,
+      },
+      fatToday: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
