@@ -10,12 +10,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import menuItemsReducer from "./menuItems";
 import savedSearchesReducer from "./savedSearches";
 import spoonacularMenuItemsReducer from "./spoonacularMenuItems";
+import dailyGoalsReducer from "./dailyGoals";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   menuItems: menuItemsReducer,
   spoonacularMenuItems: spoonacularMenuItemsReducer,
   savedSearches: savedSearchesReducer,
+  dailyGoals: dailyGoalsReducer,
 });
 
 let enhancer;
