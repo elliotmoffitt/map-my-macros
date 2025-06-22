@@ -17,13 +17,19 @@ import {
   updateMenuItemThunk,
 } from "../../../redux/menuItems";
 import { useDispatch } from "react-redux";
+import {
+  createDailyGoalThunk,
+  getDailyGoalsThunk,
+  getDailyGoalsTodayThunk,
+  updateDailyGoalThunk,
+  updateTodaysProgressThunk,
+} from "../../../redux/dailyGoals";
 
 const MenuItemCard = (menuItem: any) => {
   const round = (macro: number | string | null | undefined) => {
     const value = Number(macro);
     return isNaN(value) ? "0" : Math.ceil(value).toString();
   };
-
   const [isEditing, setIsEditing] = useState(false);
   const [isSpoonacular, setIsSpoonacular] = useState(
     menuItem.menuItem.nutrition ? true : false
@@ -41,6 +47,7 @@ const MenuItemCard = (menuItem: any) => {
     !isSpoonacular ? round(menuItem.menuItem.fat) : ""
   );
   const [isAdded, setIsAdded] = useState(false);
+  const [id, setId] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -65,6 +72,33 @@ const MenuItemCard = (menuItem: any) => {
         fat: result.nutrition.fat.slice(0, -1),
       })
     );
+    if (id === 0) {
+      const dailyGoal = await dispatch(
+        createDailyGoalThunk({
+          caloriesToday: calories,
+          proteinToday: protein,
+          carbsToday: carbs,
+          fatToday: fat,
+        })
+      );
+      // setId(dailyGoal[0].id);
+      // setCalories(dailyGoal.calories);
+      // setProtein(dailyGoal.protein);
+      // setCarbs(dailyGoal.carbs);
+      // setFat(dailyGoal.fat);
+    } else {
+      const dailyGoal = await dispatch(getDailyGoalsTodayThunk()[0]);
+
+      await dispatch(
+        updateTodaysProgressThunk({
+          id: dailyGoal.id,
+          caloriesToday: dailyGoal.calories,
+          proteinToday: dailyGoal.protein,
+          carbsToday: dailyGoal.carbs,
+          fatToday: dailyGoal.fat,
+        })
+      );
+    }
   };
 
   const handleLoggedSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -155,7 +189,8 @@ const MenuItemCard = (menuItem: any) => {
             <span className="menu-item-nutrition-icon">
               <FaDumbbell />
             </span>
-            {isSpoonacular ? result.nutrition.protein.slice(0, -1) : protein}g Protein
+            {isSpoonacular ? result.nutrition.protein.slice(0, -1) : protein}g
+            Protein
           </span>
         )}
         {isEditing && !isSpoonacular ? (

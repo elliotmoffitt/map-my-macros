@@ -13,20 +13,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
   }
   DailyGoals.init(
     {
-      caloriesDaily : {
-        allowNull: false,
+      caloriesDaily: {
         type: DataTypes.STRING,
       },
-      proteinDaily : {
-        allowNull: false,
+      proteinDaily: {
         type: DataTypes.STRING,
       },
-      carbsDaily : {
-        allowNull: false,
+      carbsDaily: {
         type: DataTypes.STRING,
       },
-      fatDaily : {
-        allowNull: false,
+      fatDaily: {
         type: DataTypes.STRING,
       },
       caloriesToday: {

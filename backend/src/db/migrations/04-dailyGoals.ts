@@ -10,19 +10,15 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       caloriesDaily: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       proteinDaily: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       carbsDaily: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       fatDaily: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       caloriesToday: {

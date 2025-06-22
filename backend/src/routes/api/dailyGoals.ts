@@ -38,12 +38,25 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
+      const {
+        caloriesDaily,
+        proteinDaily,
+        carbsDaily,
+        fatDaily,
+        caloriesToday,
+        proteinToday,
+        carbsToday,
+        fatToday,
+      } = req.body;
       const dailyGoals = await DailyGoals.create({
         caloriesDaily,
         proteinDaily,
         carbsDaily,
         fatDaily,
+        caloriesToday,
+        proteinToday,
+        carbsToday,
+        fatToday,
       });
       return res.status(200).json(dailyGoals);
     } catch (e) {
