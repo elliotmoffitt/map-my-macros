@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./DailyGoals.css";
 import LoggedToday from "./LoggedToday";
 import { FaBookmark, FaCheck, FaPencilAlt } from "react-icons/fa";
@@ -9,6 +9,7 @@ import {
 } from "../../redux/dailyGoals";
 
 const DailyGoals = (): JSX.Element => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isEditingToday, setIsEditingToday] = useState(false);
   const [isEditingDaily, setIsEditingDaily] = useState(false);
   const [caloriesToday, setCaloriesToday] = useState("");
@@ -21,9 +22,30 @@ const DailyGoals = (): JSX.Element => {
   const [fatDaily, setFatDaily] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const fetchDailyGoals = async () => {
+      const dailyGoals = await dispatch(getDailyGoalsThunk());
+      if (dailyGoals) {
+        setCaloriesToday(dailyGoals.caloriesToday);
+        setProteinToday(dailyGoals.proteinToday);
+        setCarbsToday(dailyGoals.carbsToday);
+        setFatToday(dailyGoals.fatToday);
+        setCaloriesDaily(dailyGoals.caloriesDaily);
+        setProteinDaily(dailyGoals.proteinDaily);
+        setCarbsDaily(dailyGoals.carbsDaily);
+        setFatDaily(dailyGoals.fatDaily);
+      }
+    };
+    if (!isLoaded) {
+      fetchDailyGoals();
+      setIsLoaded(true);
+    }
+  }, [dispatch, isLoaded]);
+
   const handleSaveToday = () => {};
   const handleSaveDaily = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setIsEditingDaily(false);
     await dispatch(
       createDailyGoalThunk({
         caloriesDaily: caloriesDaily,

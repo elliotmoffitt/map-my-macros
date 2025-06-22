@@ -53,15 +53,16 @@ const MenuItemCard = (menuItem: any) => {
   const handleAddMenuItem = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsAdded(true);
+    setIsEditing(false);
     await dispatch(
       createMenuItemThunk({
         restaurantName: result.restaurantChain,
         name: result.title,
         imageUrl: result.image,
         calories: result.nutrition.calories,
-        protein: result.nutrition.protein,
-        carbs: result.nutrition.carbs,
-        fat: result.nutrition.fat,
+        protein: result.nutrition.protein.slice(0, -1),
+        carbs: result.nutrition.carbs.slice(0, -1),
+        fat: result.nutrition.fat.slice(0, -1),
       })
     );
   };
@@ -154,7 +155,7 @@ const MenuItemCard = (menuItem: any) => {
             <span className="menu-item-nutrition-icon">
               <FaDumbbell />
             </span>
-            {isSpoonacular ? round(result.nutrition.protein) : protein}g Protein
+            {isSpoonacular ? result.nutrition.protein.slice(0, -1) : protein}g Protein
           </span>
         )}
         {isEditing && !isSpoonacular ? (
@@ -176,7 +177,7 @@ const MenuItemCard = (menuItem: any) => {
             <span className="menu-item-nutrition-icon">
               <FaBreadSlice />
             </span>
-            {isSpoonacular ? round(result.nutrition.carbs) : carbs}g Carbs
+            {isSpoonacular ? result.nutrition.carbs.slice(0, -1) : carbs}g Carbs
           </span>
         )}
         {isEditing && !isSpoonacular ? (
@@ -198,7 +199,7 @@ const MenuItemCard = (menuItem: any) => {
             <span className="menu-item-nutrition-icon">
               <FaTint />
             </span>
-            {isSpoonacular ? round(result.nutrition.fat) : fat}g Fat
+            {isSpoonacular ? result.nutrition.fat.slice(0, -1) : fat}g Fat
           </span>
         )}
       </div>

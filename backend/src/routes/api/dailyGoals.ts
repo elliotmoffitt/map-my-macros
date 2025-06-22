@@ -11,12 +11,12 @@ import { NoResourceError } from "../../errors/customErrors";
 const { DailyGoals } = db;
 const router = require("express").Router();
 
-const validateDailyGoals = [
-  check("caloriesDaily").notEmpty.withMessage("Calories is required"),
-  check("proteinDaily").notEmpty.withMessage("Protein is required"),
-  check("carbsDaily").notEmpty.withMessage("Carbs is required"),
-  check("fatDaily").notEmpty.withMessage("Fat is required"),
-];
+// const validateDailyGoals = [
+//   check("caloriesDaily").notEmpty.withMessage("Calories is required"),
+//   check("proteinDaily").notEmpty.withMessage("Protein is required"),
+//   check("carbsDaily").notEmpty.withMessage("Carbs is required"),
+//   check("fatDaily").notEmpty.withMessage("Fat is required"),
+// ];
 
 router.get(
   "/",
@@ -35,10 +35,10 @@ router.get(
 router.post(
   "/",
   requireAuth,
-  validateDailyGoals,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
+      console.log(req.body)
       const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
       const dailyGoals = await DailyGoals.create({
         caloriesDaily,
@@ -48,6 +48,7 @@ router.post(
       });
       return res.status(200).json(dailyGoals);
     } catch (e) {
+      console.log(req.body)
       next(e);
     }
   }
@@ -56,16 +57,15 @@ router.post(
 router.put(
   "/",
   requireAuth,
-  validateDailyGoals,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      const { calories, protein, carbs, fat } = req.body;
+      const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
       const dailyGoals = await DailyGoals.create({
-        calories,
-        protein,
-        carbs,
-        fat,
+        caloriesDaily,
+        proteinDaily,
+        carbsDaily,
+        fatDaily,
       });
       return res.status(200).json(dailyGoals);
     } catch (e) {
