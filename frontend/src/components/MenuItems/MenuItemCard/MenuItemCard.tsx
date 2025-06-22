@@ -35,16 +35,24 @@ const MenuItemCard = (menuItem: any) => {
     menuItem.menuItem.nutrition ? true : false
   );
   const [calories, setCalories] = useState(
-    !isSpoonacular ? menuItem.menuItem.calories : ""
+    !isSpoonacular
+      ? menuItem.menuItem.calories
+      : menuItem.menuItem.nutrition.calories.toString()
   );
   const [protein, setProtein] = useState(
-    !isSpoonacular ? round(menuItem.menuItem.protein) : ""
+    !isSpoonacular
+      ? round(menuItem.menuItem.protein)
+      : menuItem.menuItem.nutrition.protein.slice(0, -1)
   );
   const [carbs, setCarbs] = useState(
-    !isSpoonacular ? round(menuItem.menuItem.carbs) : ""
+    !isSpoonacular
+      ? round(menuItem.menuItem.carbs)
+      : menuItem.menuItem.nutrition.carbs.slice(0, -1)
   );
   const [fat, setFat] = useState(
-    !isSpoonacular ? round(menuItem.menuItem.fat) : ""
+    !isSpoonacular
+      ? round(menuItem.menuItem.fat)
+      : menuItem.menuItem.nutrition.fat.slice(0, -1)
   );
   const [isAdded, setIsAdded] = useState(false);
   const [id, setId] = useState(0);
@@ -54,7 +62,6 @@ const MenuItemCard = (menuItem: any) => {
     if (menuItem.menuItem.nutrition) setIsSpoonacular(true);
     else setIsSpoonacular(false);
   });
-
   const result = menuItem.menuItem;
 
   const handleAddMenuItem = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,6 +88,7 @@ const MenuItemCard = (menuItem: any) => {
           fatToday: fat,
         })
       );
+      setId(dailyGoal.id);
       // setId(dailyGoal[0].id);
       // setCalories(dailyGoal.calories);
       // setProtein(dailyGoal.protein);

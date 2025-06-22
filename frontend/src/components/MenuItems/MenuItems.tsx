@@ -20,7 +20,7 @@ const MenuItems = (): JSX.Element => {
                 ""
               );
             })
-          : ""}
+          : <h2>No Results</h2>}
       </div>
     </div>
   );
