@@ -7,6 +7,7 @@ import {
   createDailyGoalThunk,
   getDailyGoalsThunk,
   updateDailyGoalThunk,
+  updateTodaysProgressThunk,
 } from "../../redux/dailyGoals";
 
 const DailyGoals = (): JSX.Element => {
@@ -39,6 +40,10 @@ const DailyGoals = (): JSX.Element => {
         setProteinDaily(dailyGoals[0].proteinDaily);
         setCarbsDaily(dailyGoals[0].carbsDaily);
         setFatDaily(dailyGoals[0].fatDaily);
+        setCaloriesToday(dailyGoals[0].caloriesToday);
+        setProteinToday(dailyGoals[0].proteinToday);
+        setCarbsToday(dailyGoals[0].carbsToday);
+        setFatToday(dailyGoals[0].fatToday);
       }
     };
     if (!isLoaded) {
@@ -47,7 +52,6 @@ const DailyGoals = (): JSX.Element => {
     }
   }, [dispatch, isLoaded]);
 
-  const handleSaveToday = () => {};
   const handleSaveDaily = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditingDaily(false);
@@ -72,6 +76,20 @@ const DailyGoals = (): JSX.Element => {
         })
       );
     }
+  };
+  const handleSaveToday = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEditingToday(false);
+    console.log(caloriesToday, proteinToday, carbsToday, fatToday);
+    await dispatch(
+      updateTodaysProgressThunk({
+        id: id,
+        caloriesToday: caloriesToday,
+        proteinToday: proteinToday,
+        carbsToday: carbsToday,
+        fatToday: fatToday,
+      })
+    );
   };
 
   return (

@@ -1,12 +1,10 @@
 import { IDailyGoal } from "../../types/dailyGoals";
 import { csrfFetch } from "./csrf";
-import { IActionCreator } from "./types/redux";
-import { ISearch, INutritionParams } from "./types/search";
 
 const GET_DAILY_GOALS = "dailyGoals/GET_DAILY_GOALS";
-const CREATE_MENU_ITEM = "dailyGoal/CREATE_DAILY_GOALS";
-const UPDATE_MENU_ITEM = "dailyGoal/UPDATE_DAILY_GOALS";
-const DELETE_MENU_ITEM = "dailyGoal/DELETE_DAILY_GOALS";
+const CREATE_DAILY_GOALS = "dailyGoal/CREATE_DAILY_GOALS";
+const UPDATE_DAILY_GOALS = "dailyGoal/UPDATE_DAILY_GOALS";
+const DELETE_DAILY_GOALS = "dailyGoal/DELETE_DAILY_GOALS";
 
 const getDailyGoals = (dailyGoals: IDailyGoal[]) => ({
   type: GET_DAILY_GOALS,
@@ -14,17 +12,17 @@ const getDailyGoals = (dailyGoals: IDailyGoal[]) => ({
 });
 
 const createDailyGoal = (dailyGoal: IDailyGoal) => ({
-  type: CREATE_MENU_ITEM,
+  type: CREATE_DAILY_GOALS,
   payload: dailyGoal,
 });
 
 const updateDailyGoal = (dailyGoal: IDailyGoal) => ({
-  type: UPDATE_MENU_ITEM,
+  type: UPDATE_DAILY_GOALS,
   payload: dailyGoal,
 });
 
 const deleteDailyGoal = (dailyGoalId: number) => ({
-  type: DELETE_MENU_ITEM,
+  type: DELETE_DAILY_GOALS,
   payload: dailyGoalId,
 });
 
@@ -105,6 +103,33 @@ export const updateDailyGoalThunk =
     }
   };
 
+export const updateTodaysProgressThunk =
+  (dailyGoal: IDailyGoal): any =>
+  async (dispatch: any) => {
+    try {
+      const { id, caloriesToday, proteinToday, carbsToday, fatToday } =
+        dailyGoal;
+        console.log(dailyGoal)
+      const res = await csrfFetch(`/api/dailyGoals/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caloriesToday,
+          proteinToday,
+          carbsToday,
+          fatToday,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        dispatch(updateDailyGoal(data));
+        return data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
 export const deleteDailyGoalThunk =
   (dailyGoalId: number): any =>
   async (dispatch: any) => {
@@ -132,7 +157,7 @@ const dailyGoalsReducer = (state = initialState, action: any) => {
         byId[dailyGoal.id] = dailyGoal;
       }
       return { ...state, allDailyGoals, byId };
-    case CREATE_MENU_ITEM:
+    case CREATE_DAILY_GOALS:
       return {
         ...state,
         allDailyGoals: [...state.allDailyGoals, action.payload],
@@ -141,7 +166,7 @@ const dailyGoalsReducer = (state = initialState, action: any) => {
           [action.payload.id]: action.payload,
         },
       };
-    case UPDATE_MENU_ITEM: {
+    case UPDATE_DAILY_GOALS: {
       const updatedDailyGoal = action.payload;
       const newAllDailyGoals = state.dailyGoals?.map((dailyGoal: IDailyGoal) =>
         dailyGoal.id === updatedDailyGoal.id ? updatedDailyGoal : dailyGoal
@@ -155,7 +180,7 @@ const dailyGoalsReducer = (state = initialState, action: any) => {
         },
       };
     }
-    case DELETE_MENU_ITEM: {
+    case DELETE_DAILY_GOALS: {
       const idToDelete = action.payload;
       const newById = { ...state.byId };
       delete newById[idToDelete];
