@@ -38,7 +38,6 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
-      console.log(req.body)
       const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
       const dailyGoals = await DailyGoals.create({
         caloriesDaily,
@@ -48,26 +47,29 @@ router.post(
       });
       return res.status(200).json(dailyGoals);
     } catch (e) {
-      console.log(req.body)
       next(e);
     }
   }
 );
 
 router.put(
-  "/",
+  "/:dailyGoalId",
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       router.use(requireAuth);
       const { caloriesDaily, proteinDaily, carbsDaily, fatDaily } = req.body;
-      const dailyGoals = await DailyGoals.create({
+      const dailyGoal = await DailyGoals.findByPk(req.params.dailyGoalId);
+       if (!dailyGoal) {
+        return res.status(404).json({ error: "Daily goal not found" });
+      }
+      await dailyGoal.update({
         caloriesDaily,
         proteinDaily,
         carbsDaily,
         fatDaily,
       });
-      return res.status(200).json(dailyGoals);
+      return res.status(200).json(dailyGoal);
     } catch (e) {
       next(e);
     }

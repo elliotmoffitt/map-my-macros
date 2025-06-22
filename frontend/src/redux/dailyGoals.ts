@@ -83,15 +83,16 @@ export const updateDailyGoalThunk =
   (dailyGoal: IDailyGoal): any =>
   async (dispatch: any) => {
     try {
-      const { id, calories, protein, carbs, fat } = dailyGoal;
+      const { id, caloriesDaily, proteinDaily, carbsDaily, fatDaily } =
+        dailyGoal;
       const res = await csrfFetch(`/api/dailyGoals/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          calories,
-          protein,
-          carbs,
-          fat,
+          caloriesDaily,
+          proteinDaily,
+          carbsDaily,
+          fatDaily,
         }),
       });
       if (res.ok) {

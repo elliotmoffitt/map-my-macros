@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import {
   createDailyGoalThunk,
   getDailyGoalsThunk,
+  updateDailyGoalThunk,
 } from "../../redux/dailyGoals";
 
 const DailyGoals = (): JSX.Element => {
@@ -16,28 +17,32 @@ const DailyGoals = (): JSX.Element => {
   const [proteinToday, setProteinToday] = useState("");
   const [carbsToday, setCarbsToday] = useState("");
   const [fatToday, setFatToday] = useState("");
+  const [id, setId] = useState(0);
   const [caloriesDaily, setCaloriesDaily] = useState("");
   const [proteinDaily, setProteinDaily] = useState("");
   const [carbsDaily, setCarbsDaily] = useState("");
   const [fatDaily, setFatDaily] = useState("");
   const dispatch = useDispatch();
 
+  // IF FIELDS ARE EMPTY, SEND CREATE. IF NOT, SEND UPDATE
+
   useEffect(() => {
-    const fetchDailyGoals = async () => {
+    const getDailyGoals = async () => {
       const dailyGoals = await dispatch(getDailyGoalsThunk());
       if (dailyGoals) {
-        setCaloriesToday(dailyGoals.caloriesToday);
-        setProteinToday(dailyGoals.proteinToday);
-        setCarbsToday(dailyGoals.carbsToday);
-        setFatToday(dailyGoals.fatToday);
-        setCaloriesDaily(dailyGoals.caloriesDaily);
-        setProteinDaily(dailyGoals.proteinDaily);
-        setCarbsDaily(dailyGoals.carbsDaily);
-        setFatDaily(dailyGoals.fatDaily);
+        // setCaloriesToday(dailyGoals.caloriesToday);
+        // setProteinToday(dailyGoals.proteinToday);
+        // setCarbsToday(dailyGoals.carbsToday);
+        // setFatToday(dailyGoals.fatToday);
+        setId(dailyGoals[0].id);
+        setCaloriesDaily(dailyGoals[0].caloriesDaily);
+        setProteinDaily(dailyGoals[0].proteinDaily);
+        setCarbsDaily(dailyGoals[0].carbsDaily);
+        setFatDaily(dailyGoals[0].fatDaily);
       }
     };
     if (!isLoaded) {
-      fetchDailyGoals();
+      getDailyGoals();
       setIsLoaded(true);
     }
   }, [dispatch, isLoaded]);
@@ -46,14 +51,27 @@ const DailyGoals = (): JSX.Element => {
   const handleSaveDaily = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditingDaily(false);
-    await dispatch(
-      createDailyGoalThunk({
-        caloriesDaily: caloriesDaily,
-        proteinDaily: proteinDaily,
-        carbsDaily: carbsDaily,
-        fatDaily: fatDaily,
-      })
-    );
+    let dailyGoal;
+    if (id === 0) {
+      dailyGoal = await dispatch(
+        createDailyGoalThunk({
+          caloriesDaily: caloriesDaily,
+          proteinDaily: proteinDaily,
+          carbsDaily: carbsDaily,
+          fatDaily: fatDaily,
+        })
+      );
+    } else {
+      await dispatch(
+        updateDailyGoalThunk({
+          id: id,
+          caloriesDaily: caloriesDaily,
+          proteinDaily: proteinDaily,
+          carbsDaily: carbsDaily,
+          fatDaily: fatDaily,
+        })
+      );
+    }
   };
 
   return (
