@@ -135,7 +135,6 @@ export const updateTodaysProgressThunk =
     try {
       const { id, caloriesToday, proteinToday, carbsToday, fatToday } =
         dailyGoal;
-      console.log(dailyGoal);
       const res = await csrfFetch(`/api/dailyGoals/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

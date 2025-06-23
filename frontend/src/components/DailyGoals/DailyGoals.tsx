@@ -9,8 +9,12 @@ import {
   updateDailyGoalThunk,
   updateTodaysProgressThunk,
 } from "../../redux/dailyGoals";
+import { useAppSelector } from "../../redux/store";
 
 const DailyGoals = (): JSX.Element => {
+  const dailyGoal = useAppSelector(
+    (state) => state.dailyGoals.allDailyGoals
+  )[0];
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEditingToday, setIsEditingToday] = useState(false);
   const [isEditingDaily, setIsEditingDaily] = useState(false);
@@ -25,16 +29,12 @@ const DailyGoals = (): JSX.Element => {
   const [fatDaily, setFatDaily] = useState("");
   const dispatch = useDispatch();
 
-  // IF FIELDS ARE EMPTY, SEND CREATE. IF NOT, SEND UPDATE
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const getDailyGoals = async () => {
       const dailyGoals = await dispatch(getDailyGoalsThunk());
       if (dailyGoals) {
-        // setCaloriesToday(dailyGoals.caloriesToday);
-        // setProteinToday(dailyGoals.proteinToday);
-        // setCarbsToday(dailyGoals.carbsToday);
-        // setFatToday(dailyGoals.fatToday);
         setId(dailyGoals[0].id);
         setCaloriesDaily(dailyGoals[0].caloriesDaily);
         setProteinDaily(dailyGoals[0].proteinDaily);
@@ -80,7 +80,6 @@ const DailyGoals = (): JSX.Element => {
   const handleSaveToday = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEditingToday(false);
-    console.log(caloriesToday, proteinToday, carbsToday, fatToday);
     await dispatch(
       updateTodaysProgressThunk({
         id: id,
@@ -106,7 +105,7 @@ const DailyGoals = (): JSX.Element => {
               type="number"
               disabled={!isEditingToday}
               onChange={(e) => setCaloriesToday(e.target.value)}
-              value={caloriesToday}
+              value={dailyGoal?.caloriesToday || ""}
             ></input>
           </div>
           <div className="daily-goals-input-label-container">
@@ -117,7 +116,7 @@ const DailyGoals = (): JSX.Element => {
               disabled={!isEditingToday}
               placeholder="(g)"
               onChange={(e) => setProteinToday(e.target.value)}
-              value={proteinToday}
+              value={dailyGoal?.proteinToday || ""}
             ></input>
           </div>
           <div className="daily-goals-input-label-container">
@@ -128,7 +127,7 @@ const DailyGoals = (): JSX.Element => {
               disabled={!isEditingToday}
               placeholder="(g)"
               onChange={(e) => setCarbsToday(e.target.value)}
-              value={carbsToday}
+              value={dailyGoal?.carbsToday || ""}
             ></input>
           </div>
           <div className="daily-goals-input-label-container">
@@ -139,7 +138,7 @@ const DailyGoals = (): JSX.Element => {
               disabled={!isEditingToday}
               placeholder="(g)"
               onChange={(e) => setFatToday(e.target.value)}
-              value={fatToday}
+              value={dailyGoal?.fatToday || ""}
             ></input>
           </div>
           {isEditingToday ? (

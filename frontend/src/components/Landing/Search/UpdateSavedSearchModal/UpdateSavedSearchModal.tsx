@@ -88,7 +88,6 @@ const UpdateSavedSearchModal = ({ open, handleClose, savedSearch, onUpdatedSearc
         maxFat: fat[1],
       })
     );
-    console.log(updatedSearch)
     if (updatedSearch) {
       onUpdatedSearch(updatedSearch);
       handleClose(true);

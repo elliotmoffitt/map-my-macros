@@ -30,7 +30,6 @@ const MenuItemCard = (menuItem: any) => {
   const dailyGoal = useAppSelector(
     (state) => state.dailyGoals.allDailyGoals
   )[0];
-  console.log(dailyGoal);
   const round = (macro: number | string | null | undefined) => {
     const value = Number(macro);
     return isNaN(value) ? "0" : Math.ceil(value).toString();
@@ -78,11 +77,11 @@ const MenuItemCard = (menuItem: any) => {
       getDailyGoals();
       setIsLoaded(true);
     }
-  });
+  }, [dispatch, isLoaded]);
 
   const handleAddMenuItem = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // setIsAdded(true);
+    setIsAdded(true);
     setIsEditing(false);
     await dispatch(
       createMenuItemThunk({
@@ -112,7 +111,6 @@ const MenuItemCard = (menuItem: any) => {
       // setFat(dailyGoal.fat);
     } else {
       // const dailyGoal = await dispatch(getDailyGoalsThunk()[0]);
-      console.log((Number(dailyGoal.caloriesToday) + Number(calories)).toString());
       await dispatch(
         updateDailyGoalThunk({
           id: dailyGoal.id,
@@ -154,6 +152,20 @@ const MenuItemCard = (menuItem: any) => {
   ) => {
     e.preventDefault();
     await dispatch(deleteMenuItemThunk(result.id));
+    await dispatch(
+      updateDailyGoalThunk({
+        id: dailyGoal.id,
+        caloriesToday: (
+          Number(dailyGoal.caloriesToday) - Number(calories)
+        ).toString(),
+        proteinToday: (
+          Number(dailyGoal.proteinToday) - Number(protein)
+        ).toString(),
+        carbsToday: (Number(dailyGoal.carbsToday) - Number(carbs)).toString(),
+        fatToday: (Number(dailyGoal.fatToday) - Number(fat)).toString(),
+      })
+    );
+    await dispatch(getDailyGoalsThunk());
   };
 
   if (isLoaded) {

@@ -58,7 +58,6 @@ export const thunkLogin = (credentials: ICredentials): any => async (dispatch: a
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data, "in thunk")
       dispatch(setUser(data));
       return response;
     } else {
@@ -125,7 +124,6 @@ function sessionReducer(state = initialState, action: IActionCreator): SessionIn
 
   switch (action.type) {
     case SET_USER:
-      console.log(action.payload, "payload")
       return { ...state, user: action.payload };
     case REMOVE_USER:
       return { ...state, user: null };
