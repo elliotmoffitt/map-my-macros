@@ -59,6 +59,12 @@ function ProfileButton(): JSX.Element {
               >
                 Daily Goals
               </button>
+              <button
+                onClick={() => navigate("/history")}
+                id="profile-user-profile-button"
+              >
+                History
+              </button>
               <button onClick={(e) => logout(e)} id="profile-log-out-button">
                 Log Out
               </button>

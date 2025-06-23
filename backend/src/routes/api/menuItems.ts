@@ -95,7 +95,7 @@ router.put(
       // const { menuItemId } = req.params;
       const menuItem = await MenuItem.findByPk(req.params.menuItemId);
       if (!menuItem) {
-        return res.status(404).json({ error: "Saved search not found" });
+        return res.status(404).json({ error: "Menu item not found" });
       }
       await menuItem.update({
         restaurantName,
