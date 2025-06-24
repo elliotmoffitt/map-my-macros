@@ -10,11 +10,19 @@ import {
   updateTodaysProgressThunk,
 } from "../../redux/dailyGoals";
 import { useAppSelector } from "../../redux/store";
+import {
+  createFoodHistoryThunk,
+  updateFoodHistoryThunk,
+} from "../../redux/foodHistory";
+import { getMenuItemsTodayThunk } from "../../redux/menuItems";
 
 const DailyGoals = (): JSX.Element => {
   const dailyGoal = useAppSelector(
     (state) => state.dailyGoals.allDailyGoals
   )[0];
+  const menuItemsToday = useAppSelector(
+    (state) => state.menuItems.allMenuItems
+  );
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEditingToday, setIsEditingToday] = useState(false);
   const [isEditingDaily, setIsEditingDaily] = useState(false);
@@ -29,11 +37,10 @@ const DailyGoals = (): JSX.Element => {
   const [fatDaily, setFatDaily] = useState("");
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     const getDailyGoals = async () => {
       const dailyGoals = await dispatch(getDailyGoalsThunk());
+      await dispatch(getMenuItemsTodayThunk());
       if (dailyGoals) {
         setId(dailyGoals[0].id);
         setCaloriesDaily(dailyGoals[0].caloriesDaily);
@@ -51,6 +58,10 @@ const DailyGoals = (): JSX.Element => {
       setIsLoaded(true);
     }
   }, [dispatch, isLoaded]);
+
+  // useEffect(() => {
+
+  // }, [dispatch])
 
   const handleSaveDaily = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -91,8 +102,19 @@ const DailyGoals = (): JSX.Element => {
     );
   };
 
-  const handleCloseProgress = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCloseProgress = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
+    await dispatch(
+      createFoodHistoryThunk({
+        calories: caloriesToday,
+        protein: proteinToday,
+        carbs: carbsToday,
+        fat: fatToday,
+        food: menuItemsToday,
+      })
+    );
     // UPDATE HISTORY
     // updateHistory
     // UPDATE DAILY GOALS TODAY PROGRESS

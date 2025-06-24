@@ -10,6 +10,7 @@ import sessionRouter from "./session";
 import savedSearchesRouter from "./savedSearches";
 import menuItemsRouter from "./menuItems";
 import dailyGoalsRouter from "./dailyGoals";
+import historyRouter from "./history";
 import {
   ForbiddenError,
   NoResourceError,
@@ -38,6 +39,7 @@ router.use("/users", userRouter);
 router.use("/savedSearches", savedSearchesRouter);
 router.use("/menuItems", menuItemsRouter);
 router.use("/dailyGoals", dailyGoalsRouter);
+router.use("/foodHistory", historyRouter);
 
 router.get("/restore-user", (req: any, res: Response) => {
   return res.json(req.user);

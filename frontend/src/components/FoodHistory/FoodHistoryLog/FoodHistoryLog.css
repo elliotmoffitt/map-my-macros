@@ -1,0 +1,20 @@
+#food-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#food-history-title {
+  font-family: var(--title-font);
+  font-weight: normal;
+  font-size: 2.5rem;
+}
+
+#food-history-line {
+  border: 0;
+  height: 0.1rem;
+  width: 90%;
+  background-color: var(--primary-color);
+  margin: -1rem 0 0.5rem;
+}

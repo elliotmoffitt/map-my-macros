@@ -67,14 +67,14 @@ router.post(
     try {
       router.use(requireAuth);
       const { calories, carbs, protein, fat, food } = req.body;
-      const menuItem = await History.create({
+      const historyLog = await History.create({
         calories,
         carbs,
         protein,
         fat,
         food,
       });
-      return res.status(200).json(menuItem);
+      return res.status(200).json(historyLog);
     } catch (e) {
       next(e);
     }

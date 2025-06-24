@@ -11,6 +11,7 @@ import menuItemsReducer from "./menuItems";
 import savedSearchesReducer from "./savedSearches";
 import spoonacularMenuItemsReducer from "./spoonacularMenuItems";
 import dailyGoalsReducer from "./dailyGoals";
+import foodHistoryReducer from "./foodHistory";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   spoonacularMenuItems: spoonacularMenuItemsReducer,
   savedSearches: savedSearchesReducer,
   dailyGoals: dailyGoalsReducer,
+  foodHistory: foodHistoryReducer,
 });
 
 let enhancer;

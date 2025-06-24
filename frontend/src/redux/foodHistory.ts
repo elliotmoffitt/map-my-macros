@@ -68,9 +68,10 @@ export const createFoodHistoryThunk =
 export const updateFoodHistoryThunk =
   (foodHistory: IFoodHistory): any =>
   async (dispatch: any) => {
+    console.log("YUP");
     try {
       const { id, calories, protein, carbs, fat, food } = foodHistory;
-      const res = await csrfFetch(`/api/foodHistory${id}`, {
+      const res = await csrfFetch(`/api/foodHistory/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -95,7 +96,7 @@ export const deleteFoodHistoryThunk =
   (foodHistoryId: number): any =>
   async (dispatch: any) => {
     try {
-      const res = await csrfFetch(`/api/foodHistorys/${foodHistoryId}`, {
+      const res = await csrfFetch(`/api/foodHistory/${foodHistoryId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -129,7 +130,7 @@ const foodHistoryReducer = (state = initialState, action: any) => {
       };
     case UPDATE_FOOD_HISTORY: {
       const updatedFoodHistory = action.payload;
-      const newAllFoodHistory = state.foodHistorys?.map(
+      const newAllFoodHistory = state.foodHistory?.map(
         (foodHistory: IFoodHistory) =>
           foodHistory.id === updatedFoodHistory.id
             ? updatedFoodHistory
@@ -137,7 +138,7 @@ const foodHistoryReducer = (state = initialState, action: any) => {
       );
       return {
         ...state,
-        foodHistorys: newAllFoodHistory,
+        foodHistory: newAllFoodHistory,
         byId: {
           ...state.byId,
           [updatedFoodHistory.id]: updatedFoodHistory,
