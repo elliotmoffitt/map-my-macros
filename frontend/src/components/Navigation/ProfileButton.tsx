@@ -60,7 +60,7 @@ function ProfileButton(): JSX.Element {
                 Daily Goals
               </button>
               <button
-                onClick={() => navigate("/history")}
+                onClick={() => navigate("/foodHistory")}
                 id="profile-user-profile-button"
               >
                 History

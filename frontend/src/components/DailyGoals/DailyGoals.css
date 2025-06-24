@@ -78,7 +78,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   transition: background-color 0.2s ease;
   height: 2rem;
   width: 8rem;
@@ -97,11 +97,34 @@
   background-color: var(--secondary-color-hover);
 }
 
+#daily-goals-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+  height: 2rem;
+  width: 8rem;
+  background-color: var(--primary-color);
+  border-radius: 10rem;
+  border: none;
+  font-size: 1rem;
+  color: white;
+  font-family: var(--primary-font);
+  cursor: pointer;
+  margin: 1rem;
+}
+
+#daily-goals-close-button:hover {
+  transition: background-color 0.2s ease;
+  background-color: var(--primary-color-hover);
+}
+
 .daily-goals-delete-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   transition: background-color 0.2s ease;
   height: 2rem;
   width: 10rem;
@@ -124,7 +147,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   transition: background-color 0.2s ease;
   height: 2rem;
   width: 8rem;

@@ -91,6 +91,14 @@ const DailyGoals = (): JSX.Element => {
     );
   };
 
+  const handleCloseProgress = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // UPDATE HISTORY
+    // updateHistory
+    // UPDATE DAILY GOALS TODAY PROGRESS
+    // updateDailyGoalThunk();
+  };
+
   return (
     <div id="daily-goals">
       <h1 id="daily-goals-title">Daily Goals</h1>
@@ -158,6 +166,12 @@ const DailyGoals = (): JSX.Element => {
               <FaPencilAlt />
             </button>
           )}
+          <button
+            id="daily-goals-close-button"
+            onClick={(e) => handleCloseProgress(e)}
+          >
+            Close <FaCheck />
+          </button>
         </div>
 
         <div className="daily-goals-form">
