@@ -38,32 +38,56 @@ const FoodHistory = () => {
     <div id="food-history">
       <h1 id="food-history-title">History</h1>
       <hr id="food-history-line" />
-      <div id="food-history-container">
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>Date</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Protein</TableCell>
-                <TableCell align="right">Carbs</TableCell>
-                <TableCell align="right">Fat</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {foodHistoryLogs.map(
-                (foodHistoryLog: IFoodHistory, i: number) => (
-                  <FoodHistoryLog
-                    foodHistoryLog={foodHistoryLog}
-                    key={`${FoodHistoryLog.id}-${i}`}
-                  />
-                )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      {foodHistoryLogs.length ? (
+        <div id="food-history-container">
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "#F1F1F1" }}>
+                  <TableCell />
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Date
+                  </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Calories
+                  </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Protein
+                  </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Carbs
+                  </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Fat
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {foodHistoryLogs.map(
+                  (foodHistoryLog: IFoodHistory, i: number) => (
+                    <FoodHistoryLog
+                      foodHistoryLog={foodHistoryLog}
+                      key={`${FoodHistoryLog.id}-${i}`}
+                    />
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      ) : (
+        <h4>No History</h4>
+      )}
     </div>
   );
 };

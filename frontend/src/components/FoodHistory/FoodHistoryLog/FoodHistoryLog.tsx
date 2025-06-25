@@ -22,7 +22,6 @@ const FoodHistoryLog = ({
   foodHistoryLog: IFoodHistory;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -31,11 +30,13 @@ const FoodHistoryLog = ({
             {open ? <FaChevronUp /> : <FaChevronDown />}
           </IconButton>
         </TableCell>
-        <TableCell>{foodHistoryLog.createdAt}</TableCell>
-        <TableCell align="right">{foodHistoryLog.calories}</TableCell>
-        <TableCell align="right">{foodHistoryLog.protein}</TableCell>
-        <TableCell align="right">{foodHistoryLog.carbs}</TableCell>
-        <TableCell align="right">{foodHistoryLog.fat}</TableCell>
+        <TableCell>
+          {Date(foodHistoryLog.createdAt).split(" ").slice(0, 4).join(" ")}
+        </TableCell>
+        <TableCell>{foodHistoryLog.calories}</TableCell>
+        <TableCell>{foodHistoryLog.protein}</TableCell>
+        <TableCell>{foodHistoryLog.carbs}</TableCell>
+        <TableCell>{foodHistoryLog.fat}</TableCell>
       </TableRow>
 
       <TableRow>

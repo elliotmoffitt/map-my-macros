@@ -18,3 +18,12 @@
   background-color: var(--primary-color);
   margin: -1rem 0 0.5rem;
 }
+
+#food-history-container {
+  width: 60%;
+  font-family: var(--primary-font);
+}
+
+.food-history-cell {
+  font-family: var(--title-font);
+}
