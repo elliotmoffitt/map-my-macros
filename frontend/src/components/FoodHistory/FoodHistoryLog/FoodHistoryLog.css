@@ -18,3 +18,30 @@
   background-color: var(--primary-color);
   margin: -1rem 0 0.5rem;
 }
+
+.food-history-log-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#food-history-log-button-delete:hover {
+  color: red;
+}
+
+#food-history-log-button-edit:hover {
+  color: var(--secondary-color);
+}
+
+.food-history-log-macro {
+}
+
+.food-history-log-macro-input {
+  height: 2rem;
+  width: 3rem;
+  border: 0;
+  border-radius: 10rem;
+  padding-left: 0.5rem;
+  font-family: var(--primary-font);
+}

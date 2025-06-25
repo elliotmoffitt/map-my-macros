@@ -14,7 +14,11 @@ import {
   createFoodHistoryThunk,
   updateFoodHistoryThunk,
 } from "../../redux/foodHistory";
-import { getMenuItemsTodayThunk } from "../../redux/menuItems";
+import {
+  deleteMenuItemThunk,
+  getMenuItemsTodayThunk,
+  updateMenuItemThunk,
+} from "../../redux/menuItems";
 
 const DailyGoals = (): JSX.Element => {
   const dailyGoal = useAppSelector(
@@ -115,10 +119,19 @@ const DailyGoals = (): JSX.Element => {
         food: menuItemsToday,
       })
     );
-    // UPDATE HISTORY
-    // updateHistory
-    // UPDATE DAILY GOALS TODAY PROGRESS
-    // updateDailyGoalThunk();
+    await dispatch(
+      updateDailyGoalThunk({
+        id: id,
+        caloriesToday: "",
+        proteinToday: "",
+        carbsToday: "",
+        fatToday: "",
+      })
+    );
+    for (const menuItem of menuItemsToday) {
+      await dispatch(deleteMenuItemThunk(menuItem.id));
+    }
+    await dispatch(getDailyGoalsThunk());
   };
 
   return (

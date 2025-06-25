@@ -6,5 +6,6 @@ export interface IFoodHistory {
   protein?: string;
   carbs?: string;
   fat?: string;
-  food?: IMenuItem;
+  food?: IMenuItem[];
+  createdAt?: Date;
 }

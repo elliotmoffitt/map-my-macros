@@ -68,7 +68,6 @@ export const createFoodHistoryThunk =
 export const updateFoodHistoryThunk =
   (foodHistory: IFoodHistory): any =>
   async (dispatch: any) => {
-    console.log("YUP");
     try {
       const { id, calories, protein, carbs, fat, food } = foodHistory;
       const res = await csrfFetch(`/api/foodHistory/${id}`, {

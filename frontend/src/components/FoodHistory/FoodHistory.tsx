@@ -70,6 +70,16 @@ const FoodHistory = () => {
                   >
                     Fat
                   </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Delete
+                  </TableCell>
+                  <TableCell
+                    sx={{ fontFamily: "var(--title-font)", fontSize: "1.5rem" }}
+                  >
+                    Edit
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
