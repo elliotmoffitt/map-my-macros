@@ -1,10 +1,17 @@
 "use strict";
+
+import { OptionsInterface } from "../../typings/seeders";
+
+let options: OptionsInterface = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: any, Sequelize: any) {
     await queryInterface.createTable("DailyGoals", {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
@@ -34,11 +41,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
     });

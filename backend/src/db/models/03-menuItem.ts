@@ -14,30 +14,24 @@ module.exports = (sequelize: any, DataTypes: any) => {
   MenuItem.init(
     {
       restaurantName: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       name: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       imageUrl: {
         type: DataTypes.STRING,
       },
       calories: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       protein: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       carbs: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       fat: {
-        allowNull: false,
         type: DataTypes.STRING,
       },
       // DailyGoalId: {

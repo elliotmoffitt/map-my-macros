@@ -1,50 +1,49 @@
 "use strict";
+
+import { OptionsInterface } from "../../typings/seeders";
+
+let options: OptionsInterface = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: any, Sequelize: any) {
     await queryInterface.createTable("MenuItems", {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
       restaurantName: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       name: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       imageUrl: {
         type: Sequelize.STRING,
       },
       calories: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       protein: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       carbs: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       fat: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       // DailyGoalId: {
       //   type: Sequelize.INTEGER,
       // },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
     });

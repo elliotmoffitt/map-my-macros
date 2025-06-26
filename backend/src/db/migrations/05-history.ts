@@ -1,4 +1,12 @@
 "use strict";
+
+import { OptionsInterface } from "../../typings/seeders";
+
+let options: OptionsInterface = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: any, Sequelize: any) {

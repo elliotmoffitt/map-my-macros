@@ -34,7 +34,7 @@ FROM --platform=amd64 node:18-alpine as production
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-ARG SCHEMA=
+ARG SCHEMA
 ENV SCHEMA=${SCHEMA}
 
 ARG DATABASE_URL
@@ -72,7 +72,6 @@ COPY --from=frontendbuild frontend/public ./dist/react-vite/public
 RUN npm install --only=production
 
 COPY --from=backendbuild backend/dist ./dist
-
 
 EXPOSE 8000
 CMD [ "npm", "start"]
