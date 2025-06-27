@@ -10,45 +10,50 @@ if (process.env.NODE_ENV === "production") {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: any, Sequelize: any) {
-    await queryInterface.createTable("DailyGoals", {
-      id: {
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
+    await queryInterface.createTable(
+      "DailyGoals",
+      {
+        id: {
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        caloriesDaily: {
+          type: Sequelize.STRING,
+        },
+        proteinDaily: {
+          type: Sequelize.STRING,
+        },
+        carbsDaily: {
+          type: Sequelize.STRING,
+        },
+        fatDaily: {
+          type: Sequelize.STRING,
+        },
+        caloriesToday: {
+          type: Sequelize.STRING,
+        },
+        proteinToday: {
+          type: Sequelize.STRING,
+        },
+        carbsToday: {
+          type: Sequelize.STRING,
+        },
+        fatToday: {
+          type: Sequelize.STRING,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+        },
       },
-      caloriesDaily: {
-        type: Sequelize.STRING,
-      },
-      proteinDaily: {
-        type: Sequelize.STRING,
-      },
-      carbsDaily: {
-        type: Sequelize.STRING,
-      },
-      fatDaily: {
-        type: Sequelize.STRING,
-      },
-      caloriesToday: {
-        type: Sequelize.STRING,
-      },
-      proteinToday: {
-        type: Sequelize.STRING,
-      },
-      carbsToday: {
-        type: Sequelize.STRING,
-      },
-      fatToday: {
-        type: Sequelize.STRING,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-      },
-    });
+      options
+    );
   },
   async down(queryInterface: any, Sequelize: any) {
-    await queryInterface.dropTable("DailyGoals");
+    options.tableName = "DailyGoals";
+    return queryInterface.dropTable(options);
   },
 };
